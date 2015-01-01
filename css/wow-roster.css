@@ -1,0 +1,27 @@
+.class-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.label-member {
+    paddding: 2px;
+    margin: 2px;
+    display: inline-block;
+    font-size: 0.9em;
+}
+
+ul.pagination {
+    margin: 0;
+}
+
+.buff-available {
+    color: #00be4d;
+}
+
+.buff-missing {
+    color: red;
+}
+
+.remove-roster {
+    cursor: pointer;
+}
