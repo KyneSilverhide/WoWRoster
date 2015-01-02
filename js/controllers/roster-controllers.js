@@ -163,6 +163,29 @@
             $scope.buffs = buffs;
             $scope.availableBuffs = {};
 
+            //Armor types
+            $scope.armors = [{"label":"Plate","value":0, "color":"green"},
+                {"label":"Mail","value":0, "color":"red"},
+                {"label":"Leather","value":0, "color":"black"},
+                {"label":"Cloth","value":0, "color":"yellow"}];
+
+            var donut = null;
+            $scope.$watch('rosterCount', function () {
+                $("armor-donut").show();
+                setTimeout(function() {
+                    if ($scope.rosterCount > 0) {
+                        if(!donut) {
+                            donut = Morris.Donut({
+                                element: 'armor-donut',
+                                data: $scope.armors
+                            });
+                        } else {
+                            donut.setData($scope.armors);
+                        }
+                    }
+                }, 200);
+            });
+
             $scope.getCount = function (role) {
                 if ($scope.roster[role.id]) {
                     return $scope.roster[role.id].length;
@@ -199,6 +222,13 @@
                             $scope.availableBuffs[buff].count++;
                         }
                     }
+
+                    // Update armors
+                    for(var index in $scope.armors) {
+                        if($scope.armors[index].label == member.wowClass.armor) {
+                            $scope.armors[index].value++;
+                        }
+                    }
                 } else {
                     AlertService.addAlert('warning', 'This character (' + member.name + ') has no valid specialization');
                 }
@@ -218,6 +248,13 @@
                         if($scope.availableBuffs[buff]) {
                             $scope.availableBuffs[buff].count--;
                         }
+                    }
+                }
+
+                // Update armors
+                for(index in $scope.armors) {
+                    if($scope.armors[index].label == member.wowClass.armor) {
+                        $scope.armors[index].value--;
                     }
                 }
             };
@@ -247,6 +284,9 @@
                 $scope.roster = [];
                 $scope.rosterCount = 0;
                 $scope.availableBuffs = {};
+                for(index in $scope.armors) {
+                    $scope.armors[index].value = 0;
+                }
             }
         }]);
 

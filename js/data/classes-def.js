@@ -56,6 +56,7 @@ var classes = {
     1: {
         name: 'Warrior',
         color: '#C79C6E',
+        armor: 'Plate',
         specialization: {
             Protection: {
                 role: roles.Tank,
@@ -74,6 +75,7 @@ var classes = {
     2: {
         name: 'Paladin',
         color: '#F58CBA',
+        armor: 'Plate',
         specialization: {
             Retribution: {
                 role: roles.MeleeDPS,
@@ -92,6 +94,7 @@ var classes = {
     3: {
         name: 'Hunter',
         color: '#ABD473',
+        armor: 'Mail',
         specialization: {
             BeastMastery: {
                 role: roles.RangedDPS,
@@ -110,6 +113,7 @@ var classes = {
     4: {
         name: 'Rogue',
         color: '#FFF569',
+        armor: 'Leather',
         specialization: {
             Assassination: {
                 role: roles.MeleeDPS,
@@ -128,6 +132,7 @@ var classes = {
     5: {
         name: 'Priest',
         color: '#FFFFFF',
+        armor: 'Cloth',
         specialization: {
             Discipline: {
                 role: roles.Heal,
@@ -146,6 +151,7 @@ var classes = {
     6: {
         name: 'Death Knight',
         color: '#C41F3B',
+        armor: 'Plate',
         specialization: {
             Blood: {
                 role: roles.Tank,
@@ -163,7 +169,8 @@ var classes = {
     },
     7: {
         name: 'Shaman',
-        color: '#1A8EFF', //#0070DE is a bit too dark
+        color: '#0070DE ',
+        armor: 'Mail',
         specialization: {
             Elemental: {
                 role: roles.RangedDPS,
@@ -182,6 +189,7 @@ var classes = {
     8: {
         name: 'Mage',
         color: '#69CCF0',
+        armor: 'Cloth',
         specialization: {
             Arcane: {
                 role: roles.RangedDPS,
@@ -200,6 +208,7 @@ var classes = {
     9: {
         name: 'Warlock',
         color: '#9482C9',
+        armor: 'Cloth',
         specialization: {
             Affliction: {
                 role: roles.RangedDPS,
@@ -218,6 +227,7 @@ var classes = {
     10: {
         name: 'Monk',
         color: '#00FF96',
+        armor: 'Leather',
         specialization: {
             Brewmaster: {
                 role: roles.Tank,
@@ -236,6 +246,7 @@ var classes = {
     11: {
         name: 'Druid',
         color: '#FF7D0A',
+        armor: 'Leather',
         specialization: {
             Balance: {
                 role: roles.RangedDPS,

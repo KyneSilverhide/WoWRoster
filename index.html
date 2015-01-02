@@ -11,205 +11,212 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
         <!-- WoWRoster -->
         <link href="css/wow-roster.css" rel="stylesheet" media="screen">
-
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <!-- Morris -->
+        <link href='css/morris.css' rel='stylesheet' type='text/css'>
         <!-- Angular (placed in head to allow ng-cloak to work)-->
         <script type="text/javascript" src="js/angular.min.js"></script>
 	</head>
 	<body>
-        <div class="container">
-            <!-- Global navigation -->
-            <div id="main-navigation">
-                <nav class="navbar navbar-default" role="navigation">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                        </button>
-                        <a class="navbar-brand" href="#">WoWRoster</a>
-                    </div>
+        <div class="background">
+            <div class="container">
+                <div class="col-md-12">
+                    <!-- Global navigation -->
+                    <div id="main-navigation">
+                        <nav class="navbar navbar-default" role="navigation">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                                    <span class="sr-only">Toggle navigation</span>
+                                </button>
+                                <a class="navbar-brand" href="#">WoWRoster</a>
+                            </div>
 
-                    <!-- All other navigation elements will be merged together on smaller resolution -->
-                    <div class="collapse navbar-collapse navbar-ex1-collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Create roster</a></li>
-                            <li><a href="mailto:aurelien.lansmanne@gmail.com">Contact</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recommended links<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a target="_blank" href="http://eu.battle.net/wow/en/guild/silvermoon/Armory/">WoW Armory (EU)</a></li>
-                                    <li><a target="_blank" href="http://www.wowhead.com/guide=1100/buffs-and-debuffs#primary-burst-haste">All raids buffs (WoWHead)</a></li>
-                                    <li><a target="_blank" href="http://materia-guild.cf/">Materia Guild (FR)</a></li>
+                            <!-- All other navigation elements will be merged together on smaller resolution -->
+                            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                                <ul class="nav navbar-nav">
+                                    <li class="active"><a href="#">Create roster</a></li>
+                                    <li><a href="mailto:aurelien.lansmanne@gmail.com">Contact</a></li>
                                 </ul>
-                            </li>
-                        </ul>
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recommended links<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a target="_blank" href="http://eu.battle.net/wow/en/guild/silvermoon/Armory/">WoW Armory (EU)</a></li>
+                                            <li><a target="_blank" href="http://www.wowhead.com/guide=1100/buffs-and-debuffs#primary-burst-haste">All raids buffs (WoWHead)</a></li>
+                                            <li><a target="_blank" href="http://materia-guild.cf/">Materia Guild (FR)</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
                     </div>
-                </nav>
-            </div>
 
-            <div ng-controller="WarningController as warnCtrl">
-                <alert ng-repeat="alert in warnCtrl.getAlerts()" type="{{alert.type}}" close="warnCtrl.closeAlert($index)">{{alert.msg}}</alert>
-            </div>
-
-            <!-- Main block where you have to choose the region, realm, and provide your guild name -->
-            <div id="armory-config" ng-controller="ArmorySearchController as searchCtrl" ng-cloak>
+                    <div ng-controller="WarningController as warnCtrl" ng-cloak>
+                        <alert ng-repeat="alert in warnCtrl.getAlerts()" type="{{alert.type}}" close="warnCtrl.closeAlert($index)">{{alert.msg}}</alert>
+                    </div>
+                </div>
 
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h4>Select your guild...</h4></div>
-                        <div class="panel-body">
-                            <!-- Spinner and alerts -->
-                            <span us-spinner="{radius:30, width:8, length: 16}" spinner-key="armory-config-spinner"></span>
 
-                            <form action="" method="POST" role="form">
-                                <div class="row">
-                                    <!-- Region -->
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="region-select">Region</label>
-                                            <select name="region" id="region-select" class="form-control" ng-options="region.value as region.label for region in regions"
-                                                    ng-model="region">
-                                                <option value='' disabled selected>- Please Choose -</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                    <!-- Main block where you have to choose the region, realm, and provide your guild name -->
+                    <div id="armory-config" ng-controller="ArmorySearchController as searchCtrl" ng-cloak>
 
-                                    <!-- Realm -->
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="realm-typeahead">Realm</label>
-                                            <input id="realm-typeahead" type="text" ng-model="realm" typeahead="realm.value for realm in realms | filter:$viewValue | limitTo:8" class="form-control">
-                                        </div>
-                                    </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h4>Select your guild...</h4></div>
+                            <div class="panel-body">
+                                <!-- Spinner and alerts -->
+                                <span us-spinner="{radius:30, width:8, length: 16}" spinner-key="armory-config-spinner"></span>
 
-                                    <!-- Guild name -->
-                                    <div class="col-md-3">
+                                <form action="" method="POST" role="form">
+                                    <div class="row">
+                                        <!-- Region -->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="region-select">Region</label>
+                                                <select name="region" id="region-select" class="form-control" ng-options="region.value as region.label for region in regions"
+                                                        ng-model="region">
+                                                    <option value='' disabled selected>- Please Choose -</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Realm -->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="realm-typeahead">Realm</label>
+                                                <input id="realm-typeahead" type="text" ng-model="realm" typeahead="realm.value for realm in realms | filter:$viewValue | limitTo:8" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <!-- Guild name -->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="guild-name">Guild name</label>
+                                                <input type="text" class="form-control" name="guild-name" id="guild-name" placeholder="Guild name..."
+                                                       ng-model="guildName" tooltip="Please type the exact name of your guild" tooltip-trigger="focus" tooltip-placement="bottom">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="form-group">
-                                            <label for="guild-name">Guild name</label>
-                                            <input type="text" class="form-control" name="guild-name" id="guild-name" placeholder="Guild name..."
-                                                   ng-model="guildName" tooltip="Please type the exact name of your guild" tooltip-trigger="focus" tooltip-placement="bottom">
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-default" ng-click="notifyFetchCharacters()">Submit</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group">
-                                        <div class="col-md-2">
-                                            <button type="button" class="btn btn-primary" ng-click="notifyFetchCharacters()">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Character List & Roster -->
-            <div id="character-roster" ng-controller="GuildController as guildCtrl">
+                <!-- Character List & Roster -->
+                <div id="character-roster" ng-controller="GuildController as guildCtrl" ng-cloak>
 
-                <div id="characters-div" ng-show="characters.length > 0">
-                    <div class="clearfix"></div>
+                    <div id="characters-div" ng-show="characters.length > 0">
+                        <div class="clearfix"></div>
 
-                    <!-- Armory character list -->
-                    <div id="member-list" class="col-md-5">
+                        <!-- Armory character list -->
+                        <div id="member-list" class="col-md-5">
 
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4>Members of {{guildName}}</h4>
-                                <div>
-                                    <label for="max-level-chk">Show max levels only</label>
-                                    <input id="max-level-chk" type="checkbox" ng-model="maxLevelOnly">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="btn-group pull-right">
+                                        <label for="max-level-chk">Max levels only</label>
+                                        <input id="max-level-chk" type="checkbox" ng-model="maxLevelOnly">
+                                    </div>
+                                    <h4>Members of {{guildName}}</h4>
                                 </div>
-
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>Character</th><th>Level</th><th>Class</th><th>Specialization</th><th>Actions</th>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-center"><input class="form-control" placeholder="Name..." type="text" ng-model="search.name"/></th>
-                                            <th class="text-center"><input class="form-control" placeholder="Level..." type="text" ng-model="search.level"/></th>
-                                            <th class="text-center"><input class="form-control" placeholder="Class..." type="text" ng-model="search.classLabel"
-                                                                           typeahead="class for class in classes | filter:$viewValue | limitTo:5"/></th>
-                                            <th class="text-center"><input class="form-control" placeholder="Spec..." type="text" ng-model="search.spec"
-                                                                           typeahead="spec for spec in specializations | filter:$viewValue | limitTo:5"></th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody style="min-height: 500px;">
-                                        <tr ng-repeat="character in getFilteredCharacters() | filter:search:strict | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
-                                            <td class="text-center">{{character.name}}</td>
-                                            <td class="text-center">{{character.level}}</td>
-                                            <td class="text-center"><img class="class-icon img-circle" ng-src="images/{{character.wowClass.name}}.png"> {{character.class.name}}</td>
-                                            <td class="text-center">{{character.spec}}</td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-default btn-sm" ng-click="addToRoster(character)"
-                                                        tooltip="Add member to roster" tooltip-trigger="mouseenter" tooltip-placement="bottom" ng-hide="hasBeenAddedToRoster(character)">
-                                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="text-center">
-                                    <pagination total-items="getCharacterCount()" ng-model="currentPage" boundary-links="true"
-                                            rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
-                                            last-text="&raquo;" num-pages="numPages"></pagination>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Character</th><th>Level</th><th>Class</th><th>Specialization</th><th>Actions</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center"><input class="form-control" placeholder="Name..." type="text" ng-model="search.name"/></th>
+                                                <th class="text-center"><input class="form-control" placeholder="Level..." type="text" ng-model="search.level"/></th>
+                                                <th class="text-center"><input class="form-control" placeholder="Class..." type="text" ng-model="search.classLabel"
+                                                                               typeahead="class for class in classes | filter:$viewValue | limitTo:5"/></th>
+                                                <th class="text-center"><input class="form-control" placeholder="Spec..." type="text" ng-model="search.spec"
+                                                                               typeahead="spec for spec in specializations | filter:$viewValue | limitTo:5"></th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody style="min-height: 500px;">
+                                            <tr ng-repeat="character in getFilteredCharacters() | filter:search:strict | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+                                                <td class="text-center">{{character.name}}</td>
+                                                <td class="text-center">{{character.level}}</td>
+                                                <td class="text-center"><img class="class-icon img-circle" ng-src="images/{{character.wowClass.name}}.png"> {{character.class.name}}</td>
+                                                <td class="text-center">{{character.spec}}</td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-default btn-sm" ng-click="addToRoster(character)" ng-hide="hasBeenAddedToRoster(character)">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="text-center">
+                                        <pagination total-items="getCharacterCount()" ng-model="currentPage" boundary-links="true"
+                                                rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                                last-text="&raquo;" num-pages="numPages"></pagination>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Roster Details -->
-                    <div id="roster-list" class="col-md-4">
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Roster
-                                <span class="label label-default label-member">
-                                    <ng-pluralize count="rosterCount" when="{'0': 'Empty', 'one': '1 member', 'other': '{} members'}"></ng-pluralize>
-                                </span>
-                                <i class="glyphicon glyphicon-trash" tooltip="Clear roster" ng-click="clearRoster()"></i>
-                            </div>
-                            <div class="panel-body">
-                                <div class="panel panel-default" ng-repeat="role in roles">
-                                    <div class="panel-heading">{{role.label}} <span class="badge">{{getCount(role)}}</span></div>
-                                    <div class="panel-body">
-                                        <span class="member-span" ng-repeat="member in get(role)">
-                                            <span class="label label-default label-member">
-                                                <i class="glyphicon glyphicon-stop" style="color: {{member.wowClass.color}}"></i> {{member.name}}
-                                                <i class="glyphicon glyphicon-remove remove-roster" tooltip="Remove from roster" ng-click="removeFromRoster(member)"></i>
+                        <!-- Roster Details -->
+                        <div id="roster-list" class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="pull-right">
+                                        <i class="glyphicon glyphicon-trash" tooltip="Clear roster" ng-click="clearRoster()"></i>
+                                    </div>
+                                    Roster
+                                    <span class="label label-default label-member">
+                                        <ng-pluralize count="rosterCount" when="{'0': 'Empty', 'one': '1 member', 'other': '{} members'}"></ng-pluralize>
+                                    </span>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="armor-donut" style="height: 200px;" ng-hide="rosterCount == 0"></div>
+                                    <div class="panel panel-default" ng-repeat="role in roles">
+                                        <div class="panel-heading">{{role.label}} <span class="badge">{{getCount(role)}}</span></div>
+                                        <div class="panel-body">
+                                            <span class="member-span" ng-repeat="member in get(role)">
+                                                <span class="label label-member">
+                                                    <i class="glyphicon glyphicon-stop" style="color: {{member.wowClass.color}}"></i> {{member.name}}
+                                                    <i class="glyphicon glyphicon-remove remove-roster" tooltip="Remove from roster" ng-click="removeFromRoster(member)"></i>
+                                                </span>
                                             </span>
-                                        </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Buffs -->
-                    <div id="buff-list" class="col-md-3">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Buffs
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <tbody style="min-height: 500px;">
-                                        <tr ng-repeat="buff in buffs">
-                                            <td>
-                                                <i class="glyphicon glyphicon-remove buff-missing" ng-hide="isBuffAvailable(buff)"></i>
-                                                <i class="glyphicon glyphicon-ok buff-available" ng-show="isBuffAvailable(buff)"></i>
-                                            </td>
-                                            <td class="text-center">{{buff.name}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                        <!-- Buffs -->
+                        <div id="buff-list" class="col-md-3">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Buffs
+                                </div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <tbody style="min-height: 500px;">
+                                            <tr ng-repeat="buff in buffs">
+                                                <td>
+                                                    <i class="glyphicon glyphicon-remove buff-missing" ng-hide="isBuffAvailable(buff)"></i>
+                                                    <i class="glyphicon glyphicon-ok buff-available" ng-show="isBuffAvailable(buff)"></i>
+                                                </td>
+                                                <td class="text-center">{{buff.name}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -231,5 +238,8 @@
         <!-- Spinner -->
         <script type="text/javascript" src="js/spin.min.js"></script>
         <script type="text/javascript" src="js/angular-spinner.min.js"></script>
+        <!-- Morris -->
+        <script type="text/javascript" src="js/raphael-min.js"></script>
+        <script type="text/javascript" src="js/morris.js"></script>
 	</body>
 </html>
