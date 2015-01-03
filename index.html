@@ -180,8 +180,19 @@
                                         <ng-pluralize count="rosterCount" when="{'0': 'Empty', 'one': '1 member', 'other': '{} members'}"></ng-pluralize>
                                     </span>
                                 </div>
+
                                 <div class="panel-body">
-                                    <div id="armor-donut" style="height: 200px;" ng-hide="rosterCount == 0"></div>
+
+                                    <div ng-hide="rosterCount == 0">
+                                        <div class="col-md-6" style="padding: 0">
+                                            <div id="armor-donut" style="height: 200px;"></div>
+                                        </div>
+                                        <div class="col-md-6" style="padding: 0">
+                                            <div id="class-donut" style="height: 200px;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+
                                     <div class="panel panel-default" ng-repeat="role in roles">
                                         <div class="panel-heading">{{role.label}} <span class="badge">{{getCount(role)}}</span></div>
                                         <div class="panel-body">

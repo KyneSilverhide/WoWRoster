@@ -163,24 +163,63 @@
             $scope.buffs = buffs;
             $scope.availableBuffs = {};
 
-            //Armor types
-            $scope.armors = [{"label":"Plate","value":0, "color":"green"},
-                {"label":"Mail","value":0, "color":"red"},
-                {"label":"Leather","value":0, "color":"black"},
-                {"label":"Cloth","value":0, "color":"yellow"}];
+            $scope.getRosterData = function() {
+                var armorData = [{"label":"Plate","value":0},
+                    {"label":"Mail","value":0},
+                    {"label":"Leather","value":0},
+                    {"label":"Cloth","value":0}];
+                var classData = [];
+                for(index in classes) {
+                    classData.push({
+                        label: classes[index].name,
+                        value: 0,
+                        color: classes[index].color
+                    });
+                }
 
-            var donut = null;
+                for(var role in $scope.roster) {
+                    for(var index in $scope.roster[role]) {
+                        var member = $scope.roster[role][index];
+
+                        for(var armorIndex in armorData) {
+                            if(armorData[armorIndex].label == member.wowClass.armor) {
+                                armorData[armorIndex].value++;
+                            }
+                        }
+                        for(var classIndex in classData) {
+                            if(classData[classIndex].label == member.wowClass.name) {
+                                classData[classIndex].value++;
+                            }
+                        }
+                    }
+                }
+                return {
+                    armorData: armorData,
+                    classData: classData
+                };
+            };
+
+            var armorDonut = null;
+            var classDonut = null;
             $scope.$watch('rosterCount', function () {
-                $("armor-donut").show();
-                setTimeout(function() {
+                setTimeout(function() { //Using a timeout to prevent a bug : morris doesn't like to be used on hidden DOM...
                     if ($scope.rosterCount > 0) {
-                        if(!donut) {
-                            donut = Morris.Donut({
+                        var rosterData = $scope.getRosterData();
+                        if(!armorDonut && !classDonut) {
+                            armorDonut = Morris.Donut({
                                 element: 'armor-donut',
-                                data: $scope.armors
+                                data: rosterData.armorData,
+                                colors: ["#F8BD7F", "#D79F64", "#825322", "#5F3406"],
+                                resize : true
+                            });
+                            classDonut = Morris.Donut({
+                                element: 'class-donut',
+                                data: rosterData.classData,
+                                resize : true
                             });
                         } else {
-                            donut.setData($scope.armors);
+                            armorDonut.setData(rosterData.armorData);
+                            classDonut.setData(rosterData.classData);
                         }
                     }
                 }, 200);
@@ -222,13 +261,6 @@
                             $scope.availableBuffs[buff].count++;
                         }
                     }
-
-                    // Update armors
-                    for(var index in $scope.armors) {
-                        if($scope.armors[index].label == member.wowClass.armor) {
-                            $scope.armors[index].value++;
-                        }
-                    }
                 } else {
                     AlertService.addAlert('warning', 'This character (' + member.name + ') has no valid specialization');
                 }
@@ -248,13 +280,6 @@
                         if($scope.availableBuffs[buff]) {
                             $scope.availableBuffs[buff].count--;
                         }
-                    }
-                }
-
-                // Update armors
-                for(index in $scope.armors) {
-                    if($scope.armors[index].label == member.wowClass.armor) {
-                        $scope.armors[index].value--;
                     }
                 }
             };
@@ -284,9 +309,6 @@
                 $scope.roster = [];
                 $scope.rosterCount = 0;
                 $scope.availableBuffs = {};
-                for(index in $scope.armors) {
-                    $scope.armors[index].value = 0;
-                }
             }
         }]);
 
