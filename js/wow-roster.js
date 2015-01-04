@@ -16,5 +16,4 @@
             return input.slice(start);
         }
     });
-
 })(angular);

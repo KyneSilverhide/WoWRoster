@@ -95,7 +95,7 @@
                                             <div class="form-group">
                                                 <label for="guild-name">Guild name</label>
                                                 <input type="text" class="form-control" name="guild-name" id="guild-name" placeholder="Guild name..."
-                                                       ng-model="guildName" tooltip="Please type the exact name of your guild" tooltip-trigger="focus" tooltip-placement="bottom">
+                                                       ng-model="guildName" tooltip="Please type the exact name of your guild" tooltip-animation="false" tooltip-placement="bottom">
                                             </div>
                                         </div>
                                     </div>
@@ -175,23 +175,23 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <div class="pull-right">
-                                        <i class="glyphicon glyphicon-trash" tooltip="Clear roster" ng-click="clearRoster()"></i>
+                                        <i class="glyphicon glyphicon-trash" tooltip="Clear roster" tooltip-animation="false" ng-click="clearRoster()"></i>
                                     </div>
                                     Roster
                                     <span class="label label-default label-member">
                                         <ng-pluralize count="rosterCount" when="{'0': 'Empty', 'one': '1 member', 'other': '{} members'}"></ng-pluralize>
                                     </span>
-                                    <i class="fa fa-users missing fa-lg" tooltip="You need at least 10 raiders" ng-show="rosterCount < 10"></i>
-                                    <i class="fa fa-users missing fa-lg" tooltip="You can't have more than 30 raiders" ng-show="rosterCount > 30"></i>
-                                    <i class="fa fa-users available fa-lg" tooltip="Your roster size is valid" ng-show="rosterCount >= 10 && rosterCount <= 30"></i>
-                                    <i class="fa fa-shield missing fa-lg" tooltip="You need exactly two tanks" ng-hide="getTankCount() == 2"></i>
-                                    <i class="fa fa-shield available fa-lg" tooltip="You have two tanks" ng-show="getTankCount() == 2"></i>
-                                    <i class="fa fa-medkit missing fa-lg" tooltip="You need one healer for every other 4 member" ng-hide="validHealerCount()"></i>
-                                    <i class="fa fa-medkit available fa-lg" tooltip="You have enough healers" ng-show="validHealerCount()"></i>
+                                    <i class="fa fa-users missing fa-lg" ng-show="rosterCount < 10" tooltip="You need at least 10 raiders" tooltip-animation="false" ></i>
+                                    <i class="fa fa-users missing fa-lg" ng-show="rosterCount > 30" tooltip="You can't have more than 30 raiders" tooltip-animation="false" ></i>
+                                    <i class="fa fa-users available fa-lg" ng-show="rosterCount >= 10 && rosterCount <= 30" tooltip="Your roster size is valid" tooltip-animation="false" ></i>
+                                    <i class="fa fa-shield missing fa-lg" ng-hide="getTankCount() == 2" tooltip="You need exactly two tanks" tooltip-animation="false" ></i>
+                                    <i class="fa fa-shield available fa-lg" ng-show="getTankCount() == 2" tooltip="You have two tanks" tooltip-animation="false" ></i>
+                                    <i class="fa fa-medkit missing fa-lg" ng-hide="validHealerCount()" tooltip-animation="false"
+                                       tooltip="You need one healer for every other 4 member. Currently {{getHealerCount()}} healers for {{getNonHealerCount()}} members"></i>
+                                    <i class="fa fa-medkit available fa-lg" ng-show="validHealerCount()" tooltip="You have enough healers" tooltip-animation="false"></i>
                                 </div>
 
                                 <div class="panel-body">
-
                                     <div ng-hide="rosterCount == 0">
                                         <div class="col-md-6" style="padding: 0">
                                             <div id="armor-donut" style="height: 200px;"></div>
@@ -208,7 +208,8 @@
                                             <span class="member-span" ng-repeat="member in get(role)">
                                                 <span class="label label-member">
                                                     <i class="glyphicon glyphicon-stop" style="color: {{member.wowClass.color}}"></i> {{member.name}}
-                                                    <i class="glyphicon glyphicon-remove remove-roster" tooltip="Remove from roster" ng-click="removeFromRoster(member)"></i>
+                                                    <i class="glyphicon glyphicon-remove remove-roster" tooltip="Remove from roster" tooltip-animation="false"
+                                                       ng-click="removeFromRoster(member)"></i>
                                                 </span>
                                             </span>
                                         </div>
@@ -229,8 +230,12 @@
                                             <tbody style="min-height: 500px;">
                                             <tr ng-repeat="buff in buffs">
                                                 <td>
-                                                    <i class="glyphicon glyphicon-minus exclu-available" ng-show="isBuffExclusiveAvailable(buff)"></i>
-                                                    <i class="glyphicon glyphicon-remove missing" ng-show="isBuffMissing(buff)"></i>
+                                                    <span ng-show="isBuffMissing(buff)">
+                                                        <i class="glyphicon glyphicon-remove missing"></i>
+                                                    </span>
+                                                    <span ng-show="isBuffExclusiveAvailable(buff)">
+                                                        <i class="glyphicon glyphicon-minus exclu-available"></i>
+                                                    </span>
                                                     <i class="glyphicon glyphicon-ok available" ng-show="isBuffAvailable(buff)"></i>
                                                 </td>
                                                 <td class="text-center">{{buff.name}}</td>

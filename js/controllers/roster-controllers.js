@@ -237,18 +237,18 @@
                 return $scope.getCount($scope.roles.Tank);
             };
 
+            $scope.getHealerCount = function() {
+                return $scope.getCount($scope.roles.Heal);
+            };
+
+            $scope.getNonHealerCount = function() {
+                return $scope.rosterCount - $scope.getHealerCount();
+            };
+
             $scope.validHealerCount = function() {
-                this.getHealerCount = function() {
-                    return $scope.getCount($scope.roles.Heal);
-                };
-
-                this.getNonHealerCount = function() {
-                    return $scope.rosterCount - $scope.getHealerCount();
-                };
-
-                return $scope.rosterCount > 0 && this.getHealerCount() >= 1
-                    && this.getHealerCount() * 4 >= this.getNonHealerCount()
-                    && (this.getHealerCount()-1) * 4 < this.getNonHealerCount();
+                return $scope.rosterCount > 0 && $scope.getHealerCount() >= 1
+                    && $scope.getHealerCount() * 4 >= $scope.getNonHealerCount()
+                    && ($scope.getHealerCount()-1) * 4 < $scope.getNonHealerCount();
             };
 
             $scope.get = function (role) {
@@ -393,6 +393,18 @@
 
             $scope.isBuffExclusiveAvailable = function (buff) {
                 return $scope.availableBuffs[buff.id] && $scope.availableBuffs[buff.id].count == 0.5;
+            };
+
+            $scope.getSpecWith = function(buff) {
+                var tooltip = "";
+                for(var index in $scope.classes) {
+                    var className = $scope.classes[index].name;
+                    var classColor = $scope.classes[index].color;
+                    tooltip += "<i class='glyphicon glyphicon-stop' style='color:" + classColor + "'></i><br />";
+                    var classSpecs = $scope.classes[index].specialization;
+                    tooltip += "1<br />2<br />";
+                }
+              return tooltip;
             };
 
             $scope.clearRoster = function () {
