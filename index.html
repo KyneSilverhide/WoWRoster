@@ -14,6 +14,8 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <!-- Morris -->
         <link href='css/morris.css' rel='stylesheet' type='text/css'>
+        <!-- Fonts Awesome -->
+        <link rel="stylesheet" href="css/font-awesome.min.css">
         <!-- Angular (placed in head to allow ng-cloak to work)-->
         <script type="text/javascript" src="js/angular.min.js"></script>
 	</head>
@@ -161,7 +163,7 @@
                                         <div class="text-center">
                                         <pagination total-items="getCharacterCount()" ng-model="currentPage" boundary-links="true"
                                                 rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
-                                                last-text="&raquo;" num-pages="numPages"></pagination>
+                                                last-text="&raquo;" num-pages="numPages" maxSize="5" rotate="false"></pagination>
                                         </div>
                                     </div>
                                 </div>
@@ -179,6 +181,13 @@
                                     <span class="label label-default label-member">
                                         <ng-pluralize count="rosterCount" when="{'0': 'Empty', 'one': '1 member', 'other': '{} members'}"></ng-pluralize>
                                     </span>
+                                    <i class="fa fa-users missing fa-lg" tooltip="You need at least 10 raiders" ng-show="rosterCount < 10"></i>
+                                    <i class="fa fa-users missing fa-lg" tooltip="You can't have more than 30 raiders" ng-show="rosterCount > 30"></i>
+                                    <i class="fa fa-users available fa-lg" tooltip="Your roster size is valid" ng-show="rosterCount >= 10 && rosterCount <= 30"></i>
+                                    <i class="fa fa-shield missing fa-lg" tooltip="You need exactly two tanks" ng-hide="getTankCount() == 2"></i>
+                                    <i class="fa fa-shield available fa-lg" tooltip="You have two tanks" ng-show="getTankCount() == 2"></i>
+                                    <i class="fa fa-medkit missing fa-lg" tooltip="You need one healer for every other 4 member" ng-hide="validHealerCount()"></i>
+                                    <i class="fa fa-medkit available fa-lg" tooltip="You have enough healers" ng-show="validHealerCount()"></i>
                                 </div>
 
                                 <div class="panel-body">
@@ -220,8 +229,9 @@
                                             <tbody style="min-height: 500px;">
                                             <tr ng-repeat="buff in buffs">
                                                 <td>
-                                                    <i class="glyphicon glyphicon-remove buff-missing" ng-hide="isBuffAvailable(buff)"></i>
-                                                    <i class="glyphicon glyphicon-ok buff-available" ng-show="isBuffAvailable(buff)"></i>
+                                                    <i class="glyphicon glyphicon-minus exclu-available" ng-show="isBuffExclusiveAvailable(buff)"></i>
+                                                    <i class="glyphicon glyphicon-remove missing" ng-show="isBuffMissing(buff)"></i>
+                                                    <i class="glyphicon glyphicon-ok available" ng-show="isBuffAvailable(buff)"></i>
                                                 </td>
                                                 <td class="text-center">{{buff.name}}</td>
                                             </tr>
@@ -240,9 +250,10 @@
 		<!-- Bootstrap JavaScript -->
 		<script src="js/bootstrap.min.js"></script>
         <!-- Angular -->
-        <script type="text/javascript" src="js/data/classes-def.js"></script>
         <script type="text/javascript" src="js/controllers/roster-controllers.js"></script>
-        <script type="text/javascript" src="js/services/roster-services.js"></script>
+        <script type="text/javascript" src="js/services/data-services.js"></script>
+        <script type="text/javascript" src="js/services/armory-services.js"></script>
+        <script type="text/javascript" src="js/services/alert-services.js"></script>
         <script type="text/javascript" src="js/wow-roster.js"></script>
         <!-- Angular UI -->
         <script type="text/javascript" src="js/ui-bootstrap-tpls-0.12.0.min.js"></script>

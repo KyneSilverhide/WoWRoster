@@ -16,7 +16,7 @@ body {
 }
 
 .label-member {
-    paddding: 2px;
+    padding: 2px;
     margin: 2px;
     display: inline-block;
     font-size: 0.9em;
@@ -28,12 +28,16 @@ ul.pagination {
     margin: 0;
 }
 
-.buff-available {
+.available {
     color: #00be4d;
 }
 
-.buff-missing {
+.missing {
     color: red;
+}
+
+.exclu-available {
+    color: #ffff00;
 }
 
 .remove-roster {
@@ -48,14 +52,13 @@ ul.pagination {
 
 .btn-default:hover,
 .btn-default:focus,
-.btn-default:active,
-.btn-default.active {
+.btn-default:active {
     background-color: #03A688;
     border-color: #03A688;
     color: #FFFFFF;
 }
 
-.label-default, .badge-default, .label-primary, .panel-default > .panel-heading .badge {
+.label-default, .panel-default > .panel-heading .badge {
     background-color: #46735E;
     color: #FFFFFF;
 }

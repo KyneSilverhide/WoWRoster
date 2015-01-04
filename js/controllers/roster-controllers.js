@@ -68,13 +68,13 @@
             }
         };
 
-        $scope.notifyFetchCharacters = function() {
+        $scope.notifyFetchCharacters = function () {
             $rootScope.$broadcast('fetch-characters');
         }
     }]);
 
-    app.controller("GuildController", ['$scope', 'ArmoryService', 'AlertService', 'usSpinnerService', '$filter',
-        function ($scope, ArmoryService, AlertService, usSpinnerService, $filter) {
+    app.controller("GuildController", ['$scope', 'ArmoryService', 'AlertService', 'DataService', 'usSpinnerService', '$filter',
+        function ($scope, ArmoryService, AlertService, DataService, usSpinnerService, $filter) {
 
             // Pagination
             $scope.currentPage = 1;
@@ -86,6 +86,7 @@
             // Init
             $scope.classes = [];
             $scope.specializations = [];
+            var classes = DataService.getClasses();
             for (var index in classes) {
                 $scope.classes.push(classes[index].name);
                 var classSpecs = classes[index].specialization;
@@ -109,7 +110,7 @@
                 return $scope.getFilteredCharacters().length;
             };
 
-            $scope.$on('fetch-characters', function(event, args) {
+            $scope.$on('fetch-characters', function () {
                 $scope.fetchCharacters();
             });
 
@@ -157,19 +158,19 @@
             // Roster
             $scope.roster = {};
             $scope.rosterCount = 0;
-            $scope.roles = roles;
+            $scope.roles = DataService.getRoles();
 
             // Buffs
-            $scope.buffs = buffs;
+            $scope.buffs = DataService.getBuffs();
             $scope.availableBuffs = {};
 
-            $scope.getRosterData = function() {
-                var armorData = [{"label":"Plate","value":0},
-                    {"label":"Mail","value":0},
-                    {"label":"Leather","value":0},
-                    {"label":"Cloth","value":0}];
+            $scope.getRosterData = function () {
+                var armorData = [{"label": "Plate", "value": 0},
+                    {"label": "Mail", "value": 0},
+                    {"label": "Leather", "value": 0},
+                    {"label": "Cloth", "value": 0}];
                 var classData = [];
-                for(index in classes) {
+                for (index in classes) {
                     classData.push({
                         label: classes[index].name,
                         value: 0,
@@ -177,17 +178,17 @@
                     });
                 }
 
-                for(var role in $scope.roster) {
-                    for(var index in $scope.roster[role]) {
+                for (var role in $scope.roster) {
+                    for (var index in $scope.roster[role]) {
                         var member = $scope.roster[role][index];
 
-                        for(var armorIndex in armorData) {
-                            if(armorData[armorIndex].label == member.wowClass.armor) {
+                        for (var armorIndex in armorData) {
+                            if (armorData[armorIndex].label == member.wowClass.armor) {
                                 armorData[armorIndex].value++;
                             }
                         }
-                        for(var classIndex in classData) {
-                            if(classData[classIndex].label == member.wowClass.name) {
+                        for (var classIndex in classData) {
+                            if (classData[classIndex].label == member.wowClass.name) {
                                 classData[classIndex].value++;
                             }
                         }
@@ -202,20 +203,20 @@
             var armorDonut = null;
             var classDonut = null;
             $scope.$watch('rosterCount', function () {
-                setTimeout(function() { //Using a timeout to prevent a bug : morris doesn't like to be used on hidden DOM...
+                setTimeout(function () { //Using a timeout to prevent a bug : morris doesn't like to be used on hidden DOM...
                     if ($scope.rosterCount > 0) {
                         var rosterData = $scope.getRosterData();
-                        if(!armorDonut && !classDonut) {
+                        if (!armorDonut && !classDonut) {
                             armorDonut = Morris.Donut({
                                 element: 'armor-donut',
                                 data: rosterData.armorData,
                                 colors: ["#F8BD7F", "#D79F64", "#825322", "#5F3406"],
-                                resize : true
+                                resize: true
                             });
                             classDonut = Morris.Donut({
                                 element: 'class-donut',
                                 data: rosterData.classData,
-                                resize : true
+                                resize: true
                             });
                         } else {
                             armorDonut.setData(rosterData.armorData);
@@ -232,9 +233,96 @@
                 return 0;
             };
 
+            $scope.getTankCount = function() {
+                return $scope.getCount($scope.roles.Tank);
+            };
+
+            $scope.validHealerCount = function() {
+                this.getHealerCount = function() {
+                    return $scope.getCount($scope.roles.Heal);
+                };
+
+                this.getNonHealerCount = function() {
+                    return $scope.rosterCount - $scope.getHealerCount();
+                };
+
+                return $scope.rosterCount > 0 && this.getHealerCount() >= 1
+                    && this.getHealerCount() * 4 >= this.getNonHealerCount()
+                    && (this.getHealerCount()-1) * 4 < this.getNonHealerCount();
+            };
+
             $scope.get = function (role) {
                 return $scope.roster[role.id];
             };
+
+            function updateBuff(memberSpec) {
+                if (memberSpec.buffs) {
+                    // 0 = Missing. 0,5 = Available, but exclusive. 1+ = Available
+                    var processedExclusiveBuffs = [];
+                    for (var index in memberSpec.buffs) {
+                        var buffDef = memberSpec.buffs[index];
+                        // If this buff was not already handled as an exclusive buff
+                        if ($.inArray(buffDef.buff.id, processedExclusiveBuffs) == -1) {
+                            // If the buff is not yet initialized
+                            if (!$scope.availableBuffs[buffDef.buff.id]) {
+                                $scope.availableBuffs[buffDef.buff.id] = {
+                                    buff: buffDef.buff, count: 0
+                                };
+                            }
+                            if (buffDef.exclusive) {
+                                // Only one of these two buff is actually available. Raid leader has to choose
+                                var currentBuffStatus = $scope.availableBuffs[buffDef.buff.id];
+
+                                var otherBuff = buffDef.exclusive;
+                                // Init the other buff
+                                if (!$scope.availableBuffs[otherBuff.id]) {
+                                    $scope.availableBuffs[otherBuff.id] = {
+                                        buff: otherBuff, count: 0
+                                    };
+                                }
+                                var otherBuffStatus = $scope.availableBuffs[otherBuff.id];
+
+                                var count;
+                                var otherCount;
+                                if (currentBuffStatus.count >= 1 && otherBuffStatus.count >= 1) { //Both already available
+                                    count = 0.5;
+                                    otherCount = 0.5;
+                                } else if (otherBuffStatus.count >= 1) { //Only the other is available
+                                    count = 1;
+                                    otherCount = 0.5;
+                                } else if (currentBuffStatus.count >= 1) { // This one is available
+                                    count = 0.5;
+                                    otherCount = 1;
+                                } else { //None available
+                                    count = 0.5;
+                                    otherCount = 0.5;
+                                }
+                                currentBuffStatus.count += count;
+                                currentBuffStatus.exclusive = buffDef.exclusive;
+                                otherBuffStatus.count += otherCount; // Mark the other too
+
+                                processedExclusiveBuffs.push(otherBuff.id);
+                            } else {
+                                // Buff is simply available
+                                var currentBuffStatus = $scope.availableBuffs[buffDef.buff.id];
+                                if (currentBuffStatus.count == 0.5) {
+                                    // This buff will be available, so we may also set the other exclusive buff to available
+                                    var exclusiveBuffStatus = $scope.availableBuffs[currentBuffStatus.exclusive.id];
+                                    exclusiveBuffStatus.count += 0.5;
+                                }
+                                currentBuffStatus.count += 1;
+                            }
+                            processedExclusiveBuffs.push(buffDef.buff.id);
+                        } else {
+                            // This buff is (probably) exclusive, so only add the link ,the counter has already been updated
+                            if (buffDef.exclusive) {
+                                var currentBuffStatus = $scope.availableBuffs[buffDef.buff.id];
+                                currentBuffStatus.exclusive = buffDef.exclusive;
+                            }
+                        }
+                    }
+                }
+            }
 
             $scope.addToRoster = function (member) {
                 // Find the current specialization
@@ -250,17 +338,7 @@
                     $scope.rosterCount++;
 
                     // Check for new buffs
-                    if(memberSpec.buffs) {
-                        for(var index in memberSpec.buffs) {
-                            var buff = memberSpec.buffs[index].id;
-                            if(!$scope.availableBuffs[buff]) {
-                                $scope.availableBuffs[buff] = {
-                                    buff: buff, count: 0
-                                };
-                            }
-                            $scope.availableBuffs[buff].count++;
-                        }
-                    }
+                    updateBuff(memberSpec);
                 } else {
                     AlertService.addAlert('warning', 'This character (' + member.name + ') has no valid specialization');
                 }
@@ -273,15 +351,19 @@
                 $scope.roster[memberRole].splice($.inArray(member, $scope.roster[memberRole]), 1);
                 $scope.rosterCount--;
 
-                // Check for lost buffs
-                if(memberSpec.buffs) {
-                    for(var index in memberSpec.buffs) {
-                        var buff = memberSpec.buffs[index].id;
-                        if($scope.availableBuffs[buff]) {
-                            $scope.availableBuffs[buff].count--;
-                        }
+                $scope.availableBuffs = {};
+                // Instead of trying to computer all counts and following all exclusive links, we just recompute from scratch.
+                // The code is much more easy, buf-free, but a bit more costly to execute. For a full roster (30 members),
+                // and an average of ~3 buff/ member, that's still less than 100 values to process.
+                for (var curRole in $scope.roster) {
+                    for (var index in $scope.roster[curRole]) {
+                        var curMember = $scope.roster[curRole][index];
+                        var curMemberClass = curMember.wowClass;
+                        var curMemberSpec = curMemberClass.specialization[curMember.spec];
+                        updateBuff(curMemberSpec);
                     }
                 }
+
             };
 
             $scope.hasBeenAddedToRoster = function (member) {
@@ -301,11 +383,19 @@
                 return false;
             };
 
-            $scope.isBuffAvailable = function(buff) {
-                return $scope.availableBuffs[buff.id] && $scope.availableBuffs[buff.id].count > 0;
+            $scope.isBuffAvailable = function (buff) {
+                return $scope.availableBuffs[buff.id] && $scope.availableBuffs[buff.id].count > 0.5;
             };
 
-            $scope.clearRoster = function() {
+            $scope.isBuffMissing = function (buff) {
+                return !$scope.availableBuffs[buff.id] || $scope.availableBuffs[buff.id].count == 0.0;
+            };
+
+            $scope.isBuffExclusiveAvailable = function (buff) {
+                return $scope.availableBuffs[buff.id] && $scope.availableBuffs[buff.id].count == 0.5;
+            };
+
+            $scope.clearRoster = function () {
                 $scope.roster = [];
                 $scope.rosterCount = 0;
                 $scope.availableBuffs = {};

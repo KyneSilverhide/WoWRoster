@@ -4,6 +4,8 @@
         [
             'ArmoryControllers',
             'ArmoryServices',
+            'GenericServices',
+            'DataServices',
             'angularSpinner',
             'ui.bootstrap'
         ]);
