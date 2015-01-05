@@ -6,6 +6,7 @@ Web application to build a World of Warcraft raid roster from the official armor
 ## 04/01/2015
 * Warn you when your raid composition is incorrect (more or less than 3 tanks, no healer, etc.)
 * Handle exclusive buffs (A warrior can only have one "cry" active)
+
 ## 03/01/2015
 * Display which buffs will be available based on the current roster
 * Display the ratio of plate/armor/leather/cloth and the class distribution
@@ -29,4 +30,3 @@ I'm not planning on hosting the application for now. But you can actually run it
 
 # Planned Features
 * Save/Load roster
-* 
