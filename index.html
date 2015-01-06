@@ -8,16 +8,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="images/wowroster.ico" type="image/x-icon" />
 		<!-- Bootstrap CSS -->
-		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
         <!-- WoWRoster -->
         <link href="css/wow-roster.css" rel="stylesheet" media="screen">
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <!-- Morris -->
         <link href='css/morris.css' rel='stylesheet' type='text/css'>
         <!-- Fonts Awesome -->
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <!-- Angular (placed in head to allow ng-cloak to work)-->
-        <script type="text/javascript" src="js/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
 	</head>
 	<body>
         <div class="background">
@@ -246,22 +246,54 @@
                                 </div>
                             </div>
                         </div>
+                         <div class="row">
+                                        <!-- Buffs -->
+                        <div id="buff-list" class="col-md-3">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Cooldowns
+                                </div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <tbody style="min-height: 500px;">
+                                            <tr ng-repeat="cooldown in cooldowns">
+                                                <td>
+                                                    <span ng-show="isCDmissing(cooldown)">
+                                                        <i class="glyphicon glyphicon-remove missing"></i>
+                                                    </span>
+                                                    <span ng-show="isCDExclusiveAvailable(cooldown)">
+                                                        <i class="glyphicon glyphicon-minus exclu-available"></i>
+                                                    </span>
+                                                    <i class="glyphicon glyphicon-ok available" ng-show="isCDavailable(cooldown)"></i>
+                                                </td>
+                                                <td class="text-center">{{cooldown.name}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-		<!-- jQuery -->
-		<script src="js/jquery-2.1.3.min.js"></script>
-		<!-- Bootstrap JavaScript -->
-		<script src="js/bootstrap.min.js"></script>
+        <!-- jQuery -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <!-- Angular -->
-        <script type="text/javascript" src="js/controllers/roster-controllers.js"></script>
+        <script type="text/javascript" src="js/controllers/armorySearch.controller.js"></script>
+        <script type="text/javascript" src="js/controllers/guild.controller.js"></script>
+        <script type="text/javascript" src="js/controllers/warning.controller.js"></script>
         <script type="text/javascript" src="js/services/data-services.js"></script>
         <script type="text/javascript" src="js/services/armory-services.js"></script>
         <script type="text/javascript" src="js/services/alert-services.js"></script>
         <script type="text/javascript" src="js/wow-roster.js"></script>
         <!-- Angular UI -->
-        <script type="text/javascript" src="js/ui-bootstrap-tpls-0.12.0.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.min.js"></script>
         <!-- Spinner -->
         <script type="text/javascript" src="js/spin.min.js"></script>
         <script type="text/javascript" src="js/angular-spinner.min.js"></script>

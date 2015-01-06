@@ -44,7 +44,7 @@
                     localStorage.setItem("wow-roster-guild-name", data.guildName);
                 }
             }
-        }
+        };
     }]);
 
 })(angular);
