@@ -3,16 +3,7 @@ WoWRoster
 Web application to build a World of Warcraft raid roster from the official armory. Can be used to check which raid buffs are available.
 
 ## Changelog :
-* 06/01/2015
-  * Switched to CDN hosted versions of most assets in order to reduce file numbers.
-  * Added various raid cooldowns and externals using the current buff system in place.
-  * Separated the controllers into their own files.
-* 04/01/2015
-  * Warn you when your raid composition is incorrect (more or less than 3 tanks, no healer, etc.)
-  * Handle exclusive buffs (A warrior can only have one "cry" active)
-* 03/01/2015
-  * Display which buffs will be available based on the current roster
-  * Display the ratio of plate/armor/leather/cloth and the class distribution
+https://github.com/KyneSilverhide/WoWRoster/blob/master/CHANGELOG.md#changelog-
 
 # Demo
 There is a live demo available here : [WoWRoster](http://ks305642.kimsufi.com/kyne/WoWRoster/)
