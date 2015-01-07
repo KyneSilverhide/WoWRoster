@@ -19,7 +19,5 @@
         };
     }
 
-    angular
-        .module('WoWRoster')
-        .filter('startFrom', startFrom);
+    angular.module('WoWRoster').filter('startFrom', startFrom);
 })();

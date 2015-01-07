@@ -24,6 +24,11 @@ var app = angular.module('RosterControllers', []);
         }
     }
 
+    $scope.accordion = {
+        buffOpen: true,
+        cdOpen: false
+    };
+
     // Members
     $scope.characters = [];
 
@@ -57,6 +62,7 @@ var app = angular.module('RosterControllers', []);
                 .success(function (data) {
                     // Convert to a character list
                     storeCharacters(data);
+                    resetPopOvers();
                     // Save these new correct values
                     ArmoryService.saveInStorage();
                     $scope.guildName = ArmoryService.getRealm() + "/" + ArmoryService.getGuildName();
@@ -70,6 +76,7 @@ var app = angular.module('RosterControllers', []);
                     }
                     usSpinnerService.stop('armory-config-spinner');
                 });
+
             function storeCharacters(data) {
                 angular.forEach(data.members, function (value) {
                     var member = {
@@ -81,6 +88,12 @@ var app = angular.module('RosterControllers', []);
                         classLabel: classes[value.character.class].name
                     };
                     $scope.characters.push(member);
+                });
+            }
+
+            function resetPopOvers() {
+                $('[data-toggle="popover"]').popover({
+                    container: 'body'
                 });
             }
         }
@@ -399,17 +412,58 @@ var app = angular.module('RosterControllers', []);
         return $scope.availableBuffs[buff.id] && $scope.availableBuffs[buff.id].count == 0.5;
     };
 
-    $scope.getSpecWith = function(buff) {
+    $scope.generateBuffTooltip = function(buff) {
         var tooltip = "";
-        for(var index in $scope.classes) {
-            var className = $scope.classes[index].name;
-            var classColor = $scope.classes[index].color;
-            tooltip += "<i class='glyphicon glyphicon-stop' style='color:" + classColor + "'></i><br />";
-            var classSpecs = $scope.classes[index].specialization;
-            tooltip += "1<br />2<br />";
+        var classes = DataService.getClasses();
+        for(var index in classes) {
+            var className = classes[index].name;
+            var classColor = classes[index].color;
+            var classSpecs = classes[index].specialization;
+            var specs = "";
+            var classHasBuff = false;
+            for(var spec in classSpecs) {
+                var specDef = classSpecs[spec];
+                for(var buffIndex in specDef.buffs) {
+                    var otherBuffDef = specDef.buffs[buffIndex];
+                    if(buff.id == otherBuffDef.buff.id) {
+                        classHasBuff = true;
+                        specs += (spec + " ");
+                    }
+                }
+            }
+            if(classHasBuff) {
+                tooltip += "<span class='member-span'><span class='label label-member'><i class='glyphicon glyphicon-stop' style='color:" + classColor + "'></i> " + specs + "</span>";
+            }
         }
-      return tooltip;
+        return tooltip;
     };
+
+    $scope.generateCooldownTooltip = function(cooldown) {
+        var tooltip = "";
+        var classes = DataService.getClasses();
+        for(var index in classes) {
+            var className = classes[index].name;
+            var classColor = classes[index].color;
+            var classSpecs = classes[index].specialization;
+            var specs = "";
+            var classHasCD = false;
+            for(var spec in classSpecs) {
+                var specDef = classSpecs[spec];
+                for(var cdIndex in specDef.cooldowns) {
+                    var otherCDDef = specDef.cooldowns[cdIndex];
+                    if(cooldown.id == otherCDDef.cooldown.id) {
+                        classHasCD = true;
+                        specs += (spec + " ");
+                    }
+                }
+            }
+            if(classHasCD) {
+                tooltip += "<span class='member-span'><span class='label label-member'><i class='glyphicon glyphicon-stop' style='color:" + classColor + "'></i> " + specs + "</span>";
+            }
+        }
+        return tooltip;
+    };
+
     $scope.isCDavailable = function (cooldown) {
         return $scope.availableCDs[cooldown.id] && $scope.availableCDs[cooldown.id].count > 0.5;
     };
@@ -420,7 +474,8 @@ var app = angular.module('RosterControllers', []);
 
     $scope.isCDExclusiveAvailable = function (cooldown) {
          return $scope.availableCDs[cooldown.id] && $scope.availableCDs[cooldown.id].count == 0.5;
-     };
+    };
+
     $scope.clearRoster = function () {
         $scope.roster = [];
         $scope.rosterCount = 0;

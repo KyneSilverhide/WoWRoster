@@ -15,9 +15,9 @@
         <!-- Morris -->
         <link href='css/morris.css' rel='stylesheet' type='text/css'>
         <!-- Fonts Awesome -->
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <!-- Angular (placed in head to allow ng-cloak to work)-->
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
 	</head>
 	<body>
         <div class="background">
@@ -113,175 +113,168 @@
                 </div>
 
                 <!-- Character List & Roster -->
-                <div id="character-roster" ng-controller="GuildController as guildCtrl" ng-cloak>
+                <div id="character-roster" ng-controller="GuildController as guildCtrl" ng-show="characters.length > 0" ng-cloak>
+                    <div class="clearfix"></div>
 
-                    <div id="characters-div" ng-show="characters.length > 0">
-                        <div class="clearfix"></div>
-
-                        <!-- Armory character list -->
-                        <div id="member-list" class="col-md-5">
-
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="btn-group pull-right">
-                                        <label for="max-level-chk">Max levels only</label>
-                                        <input id="max-level-chk" type="checkbox" ng-model="maxLevelOnly">
-                                    </div>
-                                    <h4>Members of {{guildName}}</h4>
+                    <!-- Armory character list -->
+                    <div id="member-list" class="col-md-5">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="btn-group pull-right">
+                                    <label for="max-level-chk">Max levels only</label>
+                                    <input id="max-level-chk" type="checkbox" ng-model="maxLevelOnly">
                                 </div>
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th>Character</th><th>Level</th><th>Class</th><th>Specialization</th><th>Actions</th>
-                                            </tr>
-                                            <tr>
-                                                <th class="text-center"><input class="form-control" placeholder="Name..." type="text" ng-model="search.name"/></th>
-                                                <th class="text-center"><input class="form-control" placeholder="Level..." type="text" ng-model="search.level"/></th>
-                                                <th class="text-center"><input class="form-control" placeholder="Class..." type="text" ng-model="search.classLabel"
-                                                                               typeahead="class for class in classes | filter:$viewValue | limitTo:5"/></th>
-                                                <th class="text-center"><input class="form-control" placeholder="Spec..." type="text" ng-model="search.spec"
-                                                                               typeahead="spec for spec in specializations | filter:$viewValue | limitTo:5"></th>
-                                                <th></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody style="min-height: 500px;">
-                                            <tr ng-repeat="character in getFilteredCharacters() | filter:search:strict | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
-                                                <td class="text-center">{{character.name}}</td>
-                                                <td class="text-center">{{character.level}}</td>
-                                                <td class="text-center"><img class="class-icon img-circle" ng-src="images/{{character.wowClass.name}}.png"> {{character.class.name}}</td>
-                                                <td class="text-center">{{character.spec}}</td>
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-default btn-sm" ng-click="addToRoster(character)" ng-hide="hasBeenAddedToRoster(character)">
-                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <div class="text-center">
-                                        <pagination total-items="getCharacterCount()" ng-model="currentPage" boundary-links="true"
-                                                rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
-                                                last-text="&raquo;" num-pages="numPages" maxSize="5" rotate="false"></pagination>
-                                        </div>
+                                <h4>Members of {{guildName}}</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Character</th><th>Level</th><th>Class</th><th>Specialization</th><th>Actions</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center"><input class="form-control" placeholder="Name..." type="text" ng-model="search.name"/></th>
+                                            <th class="text-center"><input class="form-control" placeholder="Level..." type="text" ng-model="search.level"/></th>
+                                            <th class="text-center"><input class="form-control" placeholder="Class..." type="text" ng-model="search.classLabel"
+                                                                           typeahead="class for class in classes | filter:$viewValue | limitTo:5"/></th>
+                                            <th class="text-center"><input class="form-control" placeholder="Spec..." type="text" ng-model="search.spec"
+                                                                           typeahead="spec for spec in specializations | filter:$viewValue | limitTo:5"></th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="min-height: 500px;">
+                                        <tr ng-repeat="character in getFilteredCharacters() | filter:search:strict | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+                                            <td class="text-center">{{character.name}}</td>
+                                            <td class="text-center">{{character.level}}</td>
+                                            <td class="text-center"><img class="class-icon img-circle" ng-src="images/{{character.wowClass.name}}.png"> {{character.class.name}}</td>
+                                            <td class="text-center">{{character.spec}}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-default btn-sm" ng-click="addToRoster(character)" ng-hide="hasBeenAddedToRoster(character)">
+                                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="text-center">
+                                    <pagination total-items="getCharacterCount()" ng-model="currentPage" boundary-links="true"
+                                            rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                            last-text="&raquo;" num-pages="numPages" maxSize="5" rotate="false"></pagination>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Roster Details -->
-                        <div id="roster-list" class="col-md-4">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="pull-right">
-                                        <i class="glyphicon glyphicon-trash" tooltip="Clear roster" tooltip-animation="false" ng-click="clearRoster()"></i>
-                                    </div>
-                                    Roster
-                                    <span class="label label-default label-member">
-                                        <ng-pluralize count="rosterCount" when="{'0': 'Empty', 'one': '1 member', 'other': '{} members'}"></ng-pluralize>
-                                    </span>
-                                    <i class="fa fa-users missing fa-lg" ng-show="rosterCount < 10" tooltip="You need at least 10 raiders" tooltip-animation="false" ></i>
-                                    <i class="fa fa-users missing fa-lg" ng-show="rosterCount > 30" tooltip="You can't have more than 30 raiders" tooltip-animation="false" ></i>
-                                    <i class="fa fa-users available fa-lg" ng-show="rosterCount >= 10 && rosterCount <= 30" tooltip="Your roster size is valid" tooltip-animation="false" ></i>
-                                    <i class="fa fa-shield missing fa-lg" ng-hide="getTankCount() == 2" tooltip="You need exactly two tanks" tooltip-animation="false" ></i>
-                                    <i class="fa fa-shield available fa-lg" ng-show="getTankCount() == 2" tooltip="You have two tanks" tooltip-animation="false" ></i>
-                                    <i class="fa fa-medkit missing fa-lg" ng-hide="validHealerCount()" tooltip-animation="false"
-                                       tooltip="You need one healer for every other 4 member. Currently {{getHealerCount()}} healers for {{getNonHealerCount()}} members"></i>
-                                    <i class="fa fa-medkit available fa-lg" ng-show="validHealerCount()" tooltip="You have enough healers" tooltip-animation="false"></i>
+                    <!-- Roster Details -->
+                    <div id="roster-list" class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="pull-right">
+                                    <i class="glyphicon glyphicon-trash" tooltip="Clear roster" tooltip-animation="false" ng-click="clearRoster()"></i>
                                 </div>
+                                Roster
+                                <span class="label label-default label-member">
+                                    <ng-pluralize count="rosterCount" when="{'0': 'Empty', 'one': '1 member', 'other': '{} members'}"></ng-pluralize>
+                                </span>
+                                <i class="fa fa-users missing fa-lg" ng-show="rosterCount < 10" tooltip="You need at least 10 raiders" tooltip-animation="false" ></i>
+                                <i class="fa fa-users missing fa-lg" ng-show="rosterCount > 30" tooltip="You can't have more than 30 raiders" tooltip-animation="false" ></i>
+                                <i class="fa fa-users available fa-lg" ng-show="rosterCount >= 10 && rosterCount <= 30" tooltip="Your roster size is valid" tooltip-animation="false" ></i>
+                                <i class="fa fa-shield missing fa-lg" ng-hide="getTankCount() == 2" tooltip="You need exactly two tanks" tooltip-animation="false" ></i>
+                                <i class="fa fa-shield available fa-lg" ng-show="getTankCount() == 2" tooltip="You have two tanks" tooltip-animation="false" ></i>
+                                <i class="fa fa-medkit missing fa-lg" ng-hide="validHealerCount()" tooltip-animation="false"
+                                   tooltip="You need one healer for every other 4 member. Currently {{getHealerCount()}} healers for {{getNonHealerCount()}} members"></i>
+                                <i class="fa fa-medkit available fa-lg" ng-show="validHealerCount()" tooltip="You have enough healers" tooltip-animation="false"></i>
+                            </div>
 
-                                <div class="panel-body">
-                                    <div ng-hide="rosterCount == 0">
-                                        <div class="col-md-6" style="padding: 0">
-                                            <div id="armor-donut" style="height: 200px;"></div>
-                                        </div>
-                                        <div class="col-md-6" style="padding: 0">
-                                            <div id="class-donut" style="height: 200px;"></div>
-                                        </div>
+                            <div class="panel-body">
+                                <div ng-hide="rosterCount == 0">
+                                    <div class="col-md-6" style="padding: 0">
+                                        <div id="armor-donut" style="height: 200px;"></div>
                                     </div>
-                                    <div class="clearfix"></div>
+                                    <div class="col-md-6" style="padding: 0">
+                                        <div id="class-donut" style="height: 200px;"></div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
 
-                                    <div class="panel panel-default" ng-repeat="role in roles">
-                                        <div class="panel-heading">{{role.label}} <span class="badge">{{getCount(role)}}</span></div>
-                                        <div class="panel-body">
-                                            <span class="member-span" ng-repeat="member in get(role)">
-                                                <span class="label label-member">
-                                                    <i class="glyphicon glyphicon-stop" style="color: {{member.wowClass.color}}"></i> {{member.name}}
-                                                    <i class="glyphicon glyphicon-remove remove-roster" tooltip="Remove from roster" tooltip-animation="false"
-                                                       ng-click="removeFromRoster(member)"></i>
-                                                </span>
+                                <div class="panel panel-default" ng-repeat="role in roles">
+                                    <div class="panel-heading">{{role.label}} <span class="badge">{{getCount(role)}}</span></div>
+                                    <div class="panel-body">
+                                        <span class="member-span" ng-repeat="member in get(role)">
+                                            <span class="label label-member">
+                                                <i class="glyphicon glyphicon-stop" style="color:{{member.wowClass.color}}"></i> {{member.name}}
+                                                <i class="glyphicon glyphicon-remove remove-roster" tooltip="Remove from roster" tooltip-animation="false"
+                                                   ng-click="removeFromRoster(member)"></i>
                                             </span>
-                                        </div>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Buffs -->
-                        <div id="buff-list" class="col-md-3">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Buffs
+                    <!-- Buffs -->
+                    <div id="buff-list" class="col-md-3">
+                        <accordion close-others="false">
+                            <accordion-group is-open="accordion.buffOpen">
+                                <accordion-heading>
+                                    Buffs <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordion.buffOpen, 'glyphicon-chevron-right': !accordion.buffOpen}"></i>
+                                </accordion-heading>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <tbody style="min-height: 500px;">
+                                        <tr ng-repeat="buff in buffs">
+                                            <td>
+                                                <span ng-show="isBuffMissing(buff)">
+                                                    <i class="glyphicon glyphicon-remove missing"></i>
+                                                </span>
+                                                <span ng-show="isBuffExclusiveAvailable(buff)">
+                                                    <i class="glyphicon glyphicon-minus exclu-available"></i>
+                                                </span>
+                                                <i class="glyphicon glyphicon-ok available" ng-show="isBuffAvailable(buff)"></i>
+                                            </td>
+                                            <td class="buff text-center" data-html="true" data-toggle="popover" title="{{buff.desc}}" data-content="{{generateBuffTooltip(buff)}}" data-trigger="hover">
+                                                {{buff.name}}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <tbody style="min-height: 500px;">
-                                            <tr ng-repeat="buff in buffs">
-                                                <td>
-                                                    <span ng-show="isBuffMissing(buff)">
-                                                        <i class="glyphicon glyphicon-remove missing"></i>
-                                                    </span>
-                                                    <span ng-show="isBuffExclusiveAvailable(buff)">
-                                                        <i class="glyphicon glyphicon-minus exclu-available"></i>
-                                                    </span>
-                                                    <i class="glyphicon glyphicon-ok available" ng-show="isBuffAvailable(buff)"></i>
-                                                </td>
-                                                <td class="text-center">{{buff.name}}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                            </accordion-group>
+                            <accordion-group is-open="accordion.cdOpen">
+                                <accordion-heading>
+                                    Cooldowns <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordion.cdOpen, 'glyphicon-chevron-right': !accordion.cdOpen}"></i>
+                                </accordion-heading>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <tbody style="min-height: 500px;">
+                                        <tr ng-repeat="cooldown in cooldowns">
+                                            <td>
+                                            <span ng-show="isCDmissing(cooldown)">
+                                                <i class="glyphicon glyphicon-remove missing"></i>
+                                            </span>
+                                            <span ng-show="isCDExclusiveAvailable(cooldown)">
+                                                <i class="glyphicon glyphicon-minus exclu-available"></i>
+                                            </span>
+                                                <i class="glyphicon glyphicon-ok available" ng-show="isCDavailable(cooldown)"></i>
+                                            </td>
+                                            <td class="cooldown text-center" data-html="true" data-toggle="popover" title="{{cooldown.desc}}" data-content="{{generateCooldownTooltip(cooldown)}}" data-trigger="hover">
+                                                {{cooldown.name}}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
-                        </div>
-                         <div class="row">
-                                        <!-- Buffs -->
-                        <div id="buff-list" class="col-md-3">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Cooldowns
-                                </div>
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <tbody style="min-height: 500px;">
-                                            <tr ng-repeat="cooldown in cooldowns">
-                                                <td>
-                                                    <span ng-show="isCDmissing(cooldown)">
-                                                        <i class="glyphicon glyphicon-remove missing"></i>
-                                                    </span>
-                                                    <span ng-show="isCDExclusiveAvailable(cooldown)">
-                                                        <i class="glyphicon glyphicon-minus exclu-available"></i>
-                                                    </span>
-                                                    <i class="glyphicon glyphicon-ok available" ng-show="isCDavailable(cooldown)"></i>
-                                                </td>
-                                                <td class="text-center">{{cooldown.name}}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
+                            </accordion-group>
+                        </accordion>
                     </div>
                 </div>
             </div>
         </div>
         <!-- jQuery -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <!-- Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <!-- Angular -->
@@ -293,7 +286,7 @@
         <script type="text/javascript" src="js/services/alert-services.js"></script>
         <script type="text/javascript" src="js/wow-roster.js"></script>
         <!-- Angular UI -->
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.min.js"></script>
         <!-- Spinner -->
         <script type="text/javascript" src="js/spin.min.js"></script>
         <script type="text/javascript" src="js/angular-spinner.min.js"></script>

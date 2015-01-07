@@ -44,6 +44,13 @@ ul.pagination {
     cursor: pointer;
 }
 
+td.buff, td.cooldown {
+    padding-left: 0px !important;
+}
+
+/* -----------------------------------------------------------------------
+Change all button, badges and labels color to something more "green"
+------------------------------------------------------------------------ */
 .btn-default {
     background-color: #46735E;
     border-color: #46735E;

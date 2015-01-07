@@ -43,7 +43,7 @@ var app = angular.module('ArmoryControllers', []);
 
         $scope.fetchRealms = function () {
             usSpinnerService.spin('armory-config-spinner');
-            if ($scope.realmsCache[ArmoryService.getRegion()] === null) {
+            if (!$scope.realmsCache.hasOwnProperty(ArmoryService.getRegion())) {
                 ArmoryService.getRealms(ArmoryService.getRegion())
                     .success(function (data) {
                         storeRealms(data, ArmoryService.getRegion());
@@ -55,6 +55,7 @@ var app = angular.module('ArmoryControllers', []);
             } else {
                 // Use realms in cache
                 $scope.realms = $scope.realmsCache[$scope.region];
+                usSpinnerService.stop('armory-config-spinner');
             }
 
             function storeRealms(data, region) {

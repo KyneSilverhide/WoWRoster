@@ -13,55 +13,67 @@
         var buffs = {
             StatsMultiply: {
                 id: 'stats',
-                name: '+5% Strength, Agility, and Intellect'
+                name: 'Statistics',
+                desc: '+5% Strength, Agility, and Intellect'
             },
             Stamina: {
                 id: 'stamina',
-                name: '+10% Stamina'
+                name: 'Stamina',
+                desc: '+10% Stamina'
             },
             AttackPower: {
                 id: 'atkpower',
-                name: '+10% Attack Power'
+                name: 'Attack Power',
+                desc: '+10% Attack Power'
             },
             SpellPower: {
                 id: 'spellpower',
-                name: '+10% Spell Power'
+                name: 'Spell Power',
+                desc: '+10% Stamina'
             },
             BurstHaste: {
                 id: 'bl',
-                name: 'Temporary +30% Haste (Bloodlust/Heroism/Time warp)'
+                name: 'Bloodlust',
+                desc: 'Temporary +30% Haste (Heroism/Time warp)'
             },
             Mastery: {
                 id: 'mastery',
-                name: '+550 Mastery'
+                name: 'Mastery',
+                desc: '+550 Mastery'
             },
             Haste: {
                 id: 'haste',
-                name: '+5% Haste'
+                name: 'Haste',
+                desc: '+5% Haste'
             },
             CriticalStrike: {
                 id: 'crit',
-                name: '+5% Critical Strike Chance'
+                name: 'Critical Strike',
+                desc: '+5% Critical Strike Chance'
             },
             MultiStrike: {
                 id: 'mstrike',
-                name: '+5% Multistrike Chance'
+                name: 'Multistrike',
+                desc: '+5% Critical Strike Chance'
             },
             Versatility: {
                 id: 'versatility',
-                name: '+3% Versatility'
+                name: 'Versatility',
+                desc: '+3% Versatility'
             },
             MortalWounds: {
                 id: 'mortalwounds',
-                name: '-25% Healing Received (boss)'
+                name: 'Mortal wounds',
+                desc: '-25% Healing Received (boss)'
             }
         };
+
         var cooldowns = {
             tranquility: {
                 id: 'tranq',
-                name: 'Tranqulity',
+                name: 'Tranquility',
                 desc: 'Healing all party and raid members within 40 yards for (250.2% of Spell' +
-                    'power) every 2 sec.',
+                'power) every 2 sec.',
                 cd: 3
             },
             ironbark: {
@@ -86,8 +98,8 @@
             revival: {
                 id: 'revival',
                 name: 'Revival',
-                desc: 'eals all party and raid members within 100 yards for (1193.25% of Spell' +
-                    'power) and clears them of all harmful Magical, Poison, and Disease effects.',
+                desc: 'Heals all party and raid members within 100 yards for (1193.25% of Spell' +
+                'power) and clears them of all harmful Magical, Poison, and Disease effects.',
                 cd: 3
             },
             lifeCocoon: {
@@ -106,8 +118,8 @@
                 id: 'barrier',
                 name: 'Power Word: Barrier',
                 desc: 'Summons a holy barrier on the target location that reduces all damage' +
-                    'done to friendly targets by 25%. While within the barrier, spellcasting' +
-                    'will not be interrupted by damage. The barrier lasts for 10 sec.',
+                'done to friendly targets by 25%. While within the barrier, spellcasting' +
+                'will not be interrupted by damage. The barrier lasts for 10 sec.',
                 cd: 3
             },
             painSup: {
@@ -120,14 +132,14 @@
                 id: 'lightWell',
                 name: 'Light Well',
                 desc: 'Friendly players can click the Lightwell to restore' +
-                    ' health over 6 sec.  Lightwell lasts for 3 min or 15 charges.',
+                ' health over 6 sec.  Lightwell lasts for 3 min or 15 charges.',
                 cd: 3
             },
             dHymn: {
                 id: 'dHymn',
                 name: 'Divine Hymn',
                 desc: 'Heals all party or raid members within 40 yards for 4 over 8' +
-                    'sec, and increases healing done to them by 10% for 8 sec.',
+                'sec, and increases healing done to them by 10% for 8 sec.',
                 cd: 3
             },
             guardianSpirit: {
@@ -162,7 +174,7 @@
             },
             vigil: {
                 id: 'vigil',
-                name: 'Vigilence',
+                name: 'Vigilance',
                 desc: 'Reduces damage on target by 40%',
                 cd: 3
             }
