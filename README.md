@@ -3,6 +3,10 @@ WoWRoster
 Web application to build a World of Warcraft raid roster from the official armory. Can be used to check which raid buffs are available.
 
 ## Changelog :
+* 06/01/2015
+  * Switched to CDN hosted versions of most assets in order to reduce file numbers.
+  * Added various raid cooldowns and externals using the current buff system in place.
+  * Separated the controllers into their own files.
 * 04/01/2015
   * Warn you when your raid composition is incorrect (more or less than 3 tanks, no healer, etc.)
   * Handle exclusive buffs (A warrior can only have one "cry" active)
@@ -20,7 +24,7 @@ I'm not planning on hosting the application for now. But you can actually run it
 * *You are done* :)
 
 # Features
-* Access to any guild on EU, US, KR and TW regions. 
+* Access to any guild on EU, US, KR and TW regions.
 * Display all your members, or only the one at lvl 100
 * Search by name, class, specialization or level
 * Add or remove your members to the roster with a single click
@@ -31,4 +35,10 @@ I'm not planning on hosting the application for now. But you can actually run it
 * Save/Load roster
 * Tooltip to display which specs enable which buff
 * Search by role?
+* ...
+
+# To Do
+* Track the number of each CD available
+* Cleanup code involved in the cooldown tracking
+* Find a better position for the CD panel
 * ...

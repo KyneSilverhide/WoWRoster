@@ -1,19 +1,25 @@
-(function(angular) {
+(function () {
+    'use strict';
 
-    var app = angular.module('WoWRoster',
-        [
-            'ArmoryControllers',
-            'ArmoryServices',
-            'GenericServices',
-            'DataServices',
+    angular.module('WoWRoster', [
             'angularSpinner',
-            'ui.bootstrap'
+            'ui.bootstrap',
+            'ArmoryControllers',
+            'AlertControllers',
+            'RosterControllers',
+            'GenericServices',
+            'ArmoryServices',
+            'DataServices'
         ]);
 
-    app.filter('startFrom', function() {
+    function startFrom () {
         return function(input, start) {
             start = parseInt(start, 10);
             return input.slice(start);
-        }
-    });
-})(angular);
+        };
+    }
+
+    angular
+        .module('WoWRoster')
+        .filter('startFrom', startFrom);
+})();
