@@ -3,7 +3,7 @@ WoWRoster
 Web application to build a World of Warcraft raid roster from the official armory. Can be used to check which raid buffs are available.
 
 ## Changelog :
-https://github.com/KyneSilverhide/WoWRoster/blob/master/CHANGELOG.md#changelog-
+[CHANGELOG.md](https://github.com/KyneSilverhide/WoWRoster/blob/master/CHANGELOG.md#changelog-)
 
 # Demo
 There is a live demo available here : [WoWRoster](http://ks305642.kimsufi.com/kyne/WoWRoster/)
