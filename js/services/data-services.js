@@ -125,7 +125,7 @@
             painSup: {
                 id: 'painSup',
                 name: 'Pain Suppression',
-                desc: 'Damage reduction on target',
+                desc: 'All damage taken reduced by 40%',
                 cd: 3
             },
             lightWell: {
@@ -145,25 +145,30 @@
             guardianSpirit: {
                 id: 'guardianSpirit',
                 name: 'Guardian Spirit',
-                desc: 'Heals the target for damage taken',
+                desc: 'Increased healing received by 40% and will prevent 1 killing blow.',
                 cd: 3
             },
             smokebomb: {
                 id: 'smokebomb',
                 name: 'Smoke Bomb',
-                desc: 'Damage reduction',
+                desc: 'A smoke cloud interferes with targeting. Allies take 20% less damage.',
                 cd: 3
             },
             healingTide: {
                 id: 'healingTide',
                 name: 'Healing Tide',
-                desc: 'a totem that heals',
+                desc: 'Summons a Water Totem with 10% of the casters health at the feet of the' +
+                'caster for 10 sec. The Healing Tide Totem pulses every 2 sec, healing all party' +
+                'or raid members within 40 yards for (60% of Spell power).',
                 cd: 3
             },
             sLink: {
                 id: 'sLink',
                 name: 'Spirit Link',
-                desc: 'circle of reduc',
+                desc: 'Summons an Air Totem with 5 health at the feet of the caster. The totem' + 
+                'reduces damage taken by all party and raid members within 10 yards by 10%.' + 
+                'Every 1 sec, the health of all affected players is redistributed, such that all' + 
+                'players are at the same percentage of maximum health. Lasts 6 sec.',
                 cd: 3
             },
             rCry: {
