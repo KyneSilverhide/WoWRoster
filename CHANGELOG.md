@@ -1,6 +1,9 @@
 [Back to index](https://github.com/KyneSilverhide/WoWRoster)
 
 ## Changelog :
+* 10/01/2015
+  * Fixed Beast Mastery (specs with whitespaces) that couldn't be added to the roster
+  * Save and load roster (prototype)
 * 07/01/2015
   * Moved buffs and cooldowns to accordions
   * Added tooltips for these two components
