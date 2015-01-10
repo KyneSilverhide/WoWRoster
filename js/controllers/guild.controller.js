@@ -52,9 +52,9 @@ var app = angular.module('RosterControllers', []);
         $scope.lastError = null;
         $scope.characters = [];
 
-        if (ArmoryService.getRegion().trim() === '' ||
-            ArmoryService.getRealm().trim() === '' ||
-            ArmoryService.getGuildName().trim() === '') {
+        if (ArmoryService.getRegion().replace(" ", "") === '' ||
+            ArmoryService.getRealm().replace(" ", "") === '' ||
+            ArmoryService.getGuildName().replace(" ", "") === '') {
             AlertService.addAlert('warning', 'You have to fill all three fields');
         } else {
             usSpinnerService.spin('armory-config-spinner');
@@ -343,7 +343,7 @@ var app = angular.module('RosterControllers', []);
     $scope.addToRoster = function (member) {
         // Find the current specialization
         var memberClass = member.wowClass;
-        var memberSpec = memberClass.specialization[member.spec];
+        var memberSpec = memberClass.specialization[member.spec.replace(" ", "")];
         if (memberSpec) {
             // Add to the matching role in the roster
             var memberRole = memberSpec.role.id;
@@ -363,7 +363,7 @@ var app = angular.module('RosterControllers', []);
 
     $scope.removeFromRoster = function (member) {
         var memberClass = member.wowClass;
-        var memberSpec = memberClass.specialization[member.spec];
+        var memberSpec = memberClass.specialization[member.spec.replace(" ", "")];
         var memberRole = memberSpec.role.id;
         $scope.roster[memberRole].splice($.inArray(member, $scope.roster[memberRole]), 1);
         $scope.rosterCount--;
@@ -376,7 +376,7 @@ var app = angular.module('RosterControllers', []);
             for (var index in $scope.roster[curRole]) {
                 var curMember = $scope.roster[curRole][index];
                 var curMemberClass = curMember.wowClass;
-                var curMemberSpec = curMemberClass.specialization[curMember.spec];
+                var curMemberSpec = curMemberClass.specialization[curMember.spec.replace(" ", "")];
                 updateBuff(curMemberSpec);
             }
         }
@@ -385,7 +385,7 @@ var app = angular.module('RosterControllers', []);
 
     $scope.hasBeenAddedToRoster = function (member) {
         var memberClass = member.wowClass;
-        var memberSpec = memberClass.specialization[member.spec];
+        var memberSpec = memberClass.specialization[member.spec.replace(" ", "")];
         if (memberSpec) {
             if (!memberSpec.role) {
                 console.log(memberSpec + " is invalid");
