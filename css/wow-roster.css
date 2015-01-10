@@ -16,8 +16,8 @@ body {
 }
 
 .label-member {
-    padding: 2px;
-    margin: 2px;
+    padding: 5px;
+    margin: 0px;
     display: inline-block;
     font-size: 0.9em;
     background-color: #777;
@@ -51,17 +51,17 @@ td.buff, td.cooldown {
 /* -----------------------------------------------------------------------
 Change all button, badges and labels color to something more "green"
 ------------------------------------------------------------------------ */
-.btn-default {
-    background-color: #46735E;
-    border-color: #46735E;
-    color: #f5f5f5;
-}
+.btn-roster {
+     background-color: #46735E;
+     border-color: #63846A;
+     color: #f5f5f5;
+ }
 
-.btn-default:hover,
-.btn-default:focus,
-.btn-default:active {
+.btn-roster:hover,
+.btn-roster:focus,
+.btn-roster:active {
     background-color: #03A688;
-    border-color: #03A688;
+    border-color: #63846A;
     color: #FFFFFF;
 }
 

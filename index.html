@@ -102,7 +102,7 @@
                                     <div class="row">
                                         <div class="form-group">
                                             <div class="col-md-2">
-                                                <button type="button" class="btn btn-default" ng-click="notifyFetchCharacters()">Submit</button>
+                                                <button type="button" class="btn btn-roster" ng-click="notifyFetchCharacters()">Submit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -116,6 +116,37 @@
                 <div id="character-roster" ng-controller="GuildController as guildCtrl" ng-show="characters.length > 0" ng-cloak>
                     <div class="clearfix"></div>
 
+                    <!-- Existing rosters -->
+                    <div id="saved-rosters" class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4>{{guildName}}</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    <div class="btn-group" ng-repeat="roster in getSavedRosters()">
+                                        <button class="btn btn-default" ng-class="{'active': roster.name == rosterName}" ng-click="loadRoster(roster)">
+                                        {{roster.name}}
+                                        </button>
+                                        <button class="btn btn-default" tooltip="Delete roster" tooltip-animation="false"
+                                                ng-click="deleteRoster(roster)">
+                                            <i class="glyphicon glyphicon-remove remove-roster"></i>
+                                        </button>
+                                    </div>
+                                    <div class="pull-right" ng-show="rosterCount > 0">
+                                        <button type="button" class="btn btn-roster btn-sm" tooltip="Save current roster" tooltip-animation="false" data-toggle="modal" data-target="#rosterModal">
+                                            <i class="fa fa-save fa-lg"></i> Save roster
+                                        </button>
+                                        <button type="button" class="btn btn-roster btn-sm" tooltip="Clear current roster" tooltip-animation="false" ng-click="clearRoster()">
+                                            <i class="fa fa-trash fa-lg"></i> Clear roster
+                                        </button>
+                                    </div>
+                                </div>
+                                <span ng-show="getSavedRosters().length == 0">You don't have any saved roster for this guild</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Armory character list -->
                     <div id="member-list" class="col-md-5">
                         <div class="panel panel-default">
@@ -124,7 +155,7 @@
                                     <label for="max-level-chk">Max levels only</label>
                                     <input id="max-level-chk" type="checkbox" ng-model="maxLevelOnly">
                                 </div>
-                                <h4>Members of {{guildName}}</h4>
+                                Members
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
@@ -150,7 +181,7 @@
                                             <td class="text-center"><img class="class-icon img-circle" ng-src="images/{{character.wowClass.name}}.png"> {{character.class.name}}</td>
                                             <td class="text-center">{{character.spec}}</td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-default btn-sm" ng-click="addToRoster(character)" tooltip="Add to Roster" ng-hide="hasBeenAddedToRoster(character)">
+                                                <button type="button" class="btn btn-roster btn-sm" ng-click="addToRoster(character)" tooltip="Add to Roster" ng-hide="hasBeenAddedToRoster(character)">
                                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                 </button>
                                             </td>
@@ -171,9 +202,6 @@
                     <div id="roster-list" class="col-md-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <div class="pull-right">
-                                    <i class="glyphicon glyphicon-trash" tooltip="Clear roster" tooltip-animation="false" ng-click="clearRoster()"></i>
-                                </div>
                                 Roster
                                 <span class="label label-default label-member">
                                     <ng-pluralize count="rosterCount" when="{'0': 'Empty', 'one': '1 member', 'other': '{} members'}"></ng-pluralize>
@@ -210,6 +238,30 @@
                                             </span>
                                         </span>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Roster modal -->
+                    <div id="rosterModal" class="modal fade" role="dialog" aria-labelledby="rosterModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Save new roster</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="roster-name">Roster name</label>
+                                        <input id="roster-name" type="text" ng-model="rosterName" class="form-control">
+                                        <div class="well" ng-show="rosterUseExistingName()">
+                                            <i class="fa fa-exclamation-triangle fa-lg"></i>You will override an existing roster with the same name
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-roster" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveRoster()">Save</button>
                                 </div>
                             </div>
                         </div>
