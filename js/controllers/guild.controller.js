@@ -496,7 +496,7 @@
 
             $scope.getSavedRosters = function() {
                 var fullGuildName = $scope.getNormalizedFullGuildName();
-                return allSavedRosters[fullGuildName];
+                return allSavedRosters[fullGuildName] || [];
             };
 
             $scope.rosterName = "My new roster";
