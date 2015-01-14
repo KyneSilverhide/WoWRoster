@@ -26,7 +26,7 @@ I'm not planning on hosting the application for now. But you can actually run it
 
 # Add on
 I've created a small WoW addon (called WoWRosterExport) that will generate an export of any guild calendar event, so you can directly import the member list into a new roster in this web application.
-To download the addon, simply go to Curse : http://www.curse.com/addons/wow/wowrosterexport
+To download the addon, simply go to Curse : http://www.curse.com/addons/wow/wowrosterexport.
 You'll find instructions on how to use (and install) this addon.
 
 # Planned Features
