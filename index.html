@@ -133,6 +133,12 @@
                                             <i class="glyphicon glyphicon-remove remove-roster"></i>
                                         </button>
                                     </div>
+                                    &nbsp;
+                                    <div class="pull-right import-div">
+                                        <button type="button" class="btn btn-roster btn-sm" tooltip="Import roster from Addon" tooltip-animation="false" data-toggle="modal" data-target="#importModal">
+                                            <i class="fa fa-download fa-lg"></i> Import Roster
+                                        </button>
+                                    </div>
                                     <div class="pull-right" ng-show="rosterCount > 0">
                                         <button type="button" class="btn btn-roster btn-sm" tooltip="Save current roster" tooltip-animation="false" data-toggle="modal" data-target="#rosterModal">
                                             <i class="fa fa-save fa-lg"></i> Save roster
@@ -143,6 +149,59 @@
                                     </div>
                                 </div>
                                 <span ng-show="getSavedRosters().length == 0">You don't have any saved roster for this guild</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Roster modal -->
+                    <div id="rosterModal" class="modal fade" role="dialog" aria-labelledby="rosterModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Save new roster</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="roster-name">Roster name</label>
+                                        <input id="roster-name" type="text" ng-model="rosterName" class="form-control">
+                                        <div class="well" ng-show="rosterUseExistingName()">
+                                            <i class="fa fa-exclamation-triangle fa-lg"></i>You will override an existing roster with the same name
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-roster" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveRoster()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Import modal -->
+                    <div id="importModal" class="modal fade" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Import"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Import roster from Addon</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="roster-name">Roster name</label>
+                                        <input id="import-roster-name" type="text" ng-model="rosterName" class="form-control">
+                                        <div class="well" ng-show="rosterUseExistingName()">
+                                            <i class="fa fa-exclamation-triangle fa-lg"></i>You will override an existing roster with the same name
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="roster-name">Addon export text</label>
+                                        <textarea id="import-roster-text" ng-model="addonExportText" class="form-control" placeholder="Paste text from addon..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-roster" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="importRoster()">Import</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -238,30 +297,6 @@
                                             </span>
                                         </span>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Roster modal -->
-                    <div id="rosterModal" class="modal fade" role="dialog" aria-labelledby="rosterModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">Save new roster</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="roster-name">Roster name</label>
-                                        <input id="roster-name" type="text" ng-model="rosterName" class="form-control">
-                                        <div class="well" ng-show="rosterUseExistingName()">
-                                            <i class="fa fa-exclamation-triangle fa-lg"></i>You will override an existing roster with the same name
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-roster" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="saveRoster()">Save</button>
                                 </div>
                             </div>
                         </div>

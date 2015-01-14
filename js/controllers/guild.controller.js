@@ -541,6 +541,30 @@
                 }
             };
 
+            $scope.addonExportText = "";
+            $scope.importRoster = function() {
+                $scope.clearRoster();
+                try {
+                    var importedName = $scope.rosterName;
+                    var importedText = $scope.addonExportText;
+
+                    var rows = importedText.split('\n');
+                    rows.splice(0, 1); //Remove header
+                    var memberNames = rows[0].split(';');
+                    for(var index in memberNames) {
+                        var memberName = memberNames[index];
+                        for(var memberIndex in $scope.characters) {
+                            var member = $scope.characters[memberIndex];
+                            if(member.name == memberName) {
+                                $scope.addToRoster(member);
+                            }
+                        }
+                    }
+                } catch(e) {
+                    AlertService.addAlert('warning', 'Incorrect format');
+                }
+            };
+
             $scope.loadRoster = function(roster) {
                 // Clear current roster
                 $scope.clearRoster();

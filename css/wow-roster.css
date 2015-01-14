@@ -48,6 +48,10 @@ td.buff, td.cooldown {
     padding-left: 0px !important;
 }
 
+.import-div {
+    margin-left: 3px;
+}
+
 /* -----------------------------------------------------------------------
 Change all button, badges and labels color to something more "green"
 ------------------------------------------------------------------------ */
