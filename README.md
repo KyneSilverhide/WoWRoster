@@ -1,6 +1,6 @@
 WoWRoster
 =========
-Web application to build a World of Warcraft raid roster from the official armory. Can be used to check which raid buffs are available.
+WoWRoster is a web application to build a World of Warcraft raid roster from the official armory. Can be used to check which raid buffs and cooldowns are available in your roster.
 
 ## Changelog :
 [CHANGELOG.md](https://github.com/KyneSilverhide/WoWRoster/blob/master/CHANGELOG.md#changelog-)
@@ -21,15 +21,15 @@ I'm not planning on hosting the application for now. But you can actually run it
 * Add or remove your members to the roster with a single click
 * Display which buffs will be available based on the current roster (handle exclusive buffs sur as a warrior cry)
 * Display the ratio of plate/armor/leather/cloth and the class distribution
+* Save rosters (by guild)
+* Import them directly from the WoW calendar, by using a very small addon
+
+# Add on
+I've created a small WoW addon (called WoWRosterExport) that will generate an export of any guild calendar event, so you can directly import the member list into a new roster in this web application.
+To download the addon, simply go to Curse : http://www.curse.com/addons/wow/wowrosterexport.
+You'll find instructions on how to use (and install) this addon.
 
 # Planned Features
-* Save/Load roster
-* Tooltip to display which specs enable which buff
 * Search by role?
-* ...
-
-# To Do
-* Track the number of each CD available
-* Cleanup code involved in the cooldown tracking
-* Find a better position for the CD panel
+* Export?
 * ...
