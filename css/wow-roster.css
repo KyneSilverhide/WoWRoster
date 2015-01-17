@@ -17,7 +17,7 @@ body {
 
 .label-member {
     padding: 5px;
-    margin: 0px;
+    margin: 1px;
     display: inline-block;
     font-size: 0.9em;
     background-color: #777;

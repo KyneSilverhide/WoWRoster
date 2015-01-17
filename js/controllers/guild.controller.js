@@ -549,8 +549,7 @@
                     var importedText = $scope.addonExportText;
 
                     var rows = importedText.split('\n');
-                    rows.splice(0, 1); //Remove header
-                    var memberNames = rows[0].split(';');
+                    var memberNames = rows[1].split(';');
                     for(var index in memberNames) {
                         var memberName = memberNames[index];
                         for(var memberIndex in $scope.characters) {
@@ -560,8 +559,18 @@
                             }
                         }
                     }
+                    $scope.saveRoster();
                 } catch(e) {
                     AlertService.addAlert('warning', 'Incorrect format');
+                }
+            };
+
+            $scope.parseImport = function() {
+                var importedText = $scope.addonExportText;
+                var rows = importedText.split('\n');
+                var header = rows[0].split('#');
+                if(header.length == 3) { //WOWROSTER#EVENTYPE#EVENTTITLE
+                    $scope.rosterName = "[" + header[1] + "] " + header[2];
                 }
             };
 

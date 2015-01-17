@@ -196,7 +196,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="roster-name">Addon export text</label>
-                                        <textarea id="import-roster-text" ng-model="addonExportText" class="form-control" placeholder="Paste text from addon..."></textarea>
+                                        <textarea id="import-roster-text" ng-model="addonExportText" ng-change="parseImport()"
+                                                  class="form-control" placeholder="Paste text from addon..." rows="4"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
