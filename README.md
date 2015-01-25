@@ -18,6 +18,7 @@ I'm not planning on hosting the application for now. But you can actually run it
 * Access to any guild on EU, US, KR and TW regions.
 * Display all your members, or only the one at lvl 100
 * Search by name, class, specialization or level
+* Filter by ranks
 * Add or remove your members to the roster with a single click
 * Display which buffs will be available based on the current roster (handle exclusive buffs sur as a warrior cry)
 * Display the ratio of plate/armor/leather/cloth and the class distribution
