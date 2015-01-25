@@ -1,6 +1,9 @@
 [Back to index](https://github.com/KyneSilverhide/WoWRoster)
 
 ## Changelog :
+* Jan 25, 2015
+  * Added guild ranks filters (numbers only. Titles can't be fetched from API)
+  * Reworked filtering, and fixed pagination 
 * Jan 17, 2015
   * Import now automatically saves the roster
   * Import will now try to extract the name and type of the roster from the addon text export (you also need to  update WoWRosterExport in World or Warcraft)
