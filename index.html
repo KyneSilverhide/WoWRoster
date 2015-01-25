@@ -54,7 +54,7 @@
                         </nav>
                     </div>
 
-                    <div ng-controller="WarningController as warnCtrl" ng-cloak>
+                    <div ng-controller="WarningController as warnCtrl" class="container narbar navbar-fixed-top" ng-cloak>
                         <alert ng-repeat="alert in warnCtrl.getAlerts()" type="{{alert.type}}" close="warnCtrl.closeAlert($index)">{{alert.msg}}</alert>
                     </div>
                 </div>
@@ -222,7 +222,7 @@
                                         </accordion-heading>
                                         <div>
                                             <label for="max-level-chk">Max levels only</label>
-                                            <input id="max-level-chk" type="checkbox" ng-model="maxLevelOnly">
+                                            <input id="max-level-chk" type="checkbox" ng-model="accordion.maxLevelOnly">
                                         </div>
                                         <hr />
                                         <div ng-repeat="rank in ranks | orderBy: 'name'">

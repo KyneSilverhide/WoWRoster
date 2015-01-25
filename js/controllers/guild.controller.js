@@ -11,7 +11,6 @@
             $scope.maxSize = 5;
 
             $scope.guildName = null;
-            $scope.maxLevelOnly = true;
 
             // Init
             $scope.classes = [];
@@ -28,7 +27,8 @@
             $scope.accordion = {
                 buffOpen: true,
                 cdOpen: false,
-                filtersOpen : false
+                filtersOpen : false,
+                maxLevelOnly : true
             };
 
             // Members
@@ -47,7 +47,7 @@
             };
 
             $scope.filterMaxOnly = function(member) {
-                if ($scope.maxLevelOnly) {
+                if ($scope.accordion.maxLevelOnly) {
                     return member.level == 100;
                 }
                 return true;
@@ -368,21 +368,25 @@
             $scope.addToRoster = function (member) {
                 // Find the current specialization
                 var memberClass = member.wowClass;
-                var memberSpec = memberClass.specialization[member.spec.replace(" ", "")];
-                if (memberSpec) {
-                    // Add to the matching role in the roster
-                    var memberRole = memberSpec.role.id;
-                    if (!$scope.roster[memberRole]) {
-                        $scope.roster[memberRole] = [];
-                    }
-                    $scope.roster[memberRole].push(member);
-                    $scope.rosterCount++;
+                if(member.spec) {
+                    var memberSpec = memberClass.specialization[member.spec.replace(" ", "")];
+                    if (memberSpec) {
+                        // Add to the matching role in the roster
+                        var memberRole = memberSpec.role.id;
+                        if (!$scope.roster[memberRole]) {
+                            $scope.roster[memberRole] = [];
+                        }
+                        $scope.roster[memberRole].push(member);
+                        $scope.rosterCount++;
 
-                    // Check for new buffs
-                    updateBuff(memberSpec);
-                    updateCD(memberSpec);
-                } else {
-                    AlertService.addAlert('warning', 'This character (' + member.name + ') has no valid specialization');
+                        // Check for new buffs
+                        updateBuff(memberSpec);
+                        updateCD(memberSpec);
+                    } else {
+                        AlertService.addAlert('warning', 'This character (' + member.name + ') has no valid specialization');
+                    }
+                }  else {
+                    AlertService.addAlert('warning', 'This character (' + member.name + ') has no specialization defined');
                 }
             };
 
