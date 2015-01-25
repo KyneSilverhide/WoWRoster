@@ -212,13 +212,26 @@
                     <div id="member-list" class="col-md-5">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <div class="btn-group pull-right">
-                                    <label for="max-level-chk">Max levels only</label>
-                                    <input id="max-level-chk" type="checkbox" ng-model="maxLevelOnly">
-                                </div>
                                 Members
                             </div>
                             <div class="panel-body">
+                                <accordion close-others="false">
+                                    <accordion-group is-open="accordion.filtersOpen">
+                                        <accordion-heading>
+                                            Filters <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordion.filtersOpen, 'glyphicon-chevron-right': !accordion.filtersOpen}"></i>
+                                        </accordion-heading>
+                                        <div>
+                                            <label for="max-level-chk">Max levels only</label>
+                                            <input id="max-level-chk" type="checkbox" ng-model="maxLevelOnly">
+                                        </div>
+                                        <hr />
+                                        <div ng-repeat="rank in ranks | orderBy: 'name'">
+                                            <label>Rank {{rank.name}}
+                                                <input type="checkbox" name="ranks" value="{{rank.id}}" ng-model="rank.selected">
+                                            </label>
+                                        </div>
+                                    </accordion-group>
+                                </accordion>
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead>
@@ -236,7 +249,7 @@
                                         </tr>
                                         </thead>
                                         <tbody style="min-height: 500px;">
-                                        <tr ng-repeat="character in getFilteredCharacters() | filter:search:strict | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+                                        <tr ng-repeat="character in filteredCharacters = (characters | filter:filterByRanks | filter:filterMaxOnly | filter:search:strict) | startFrom:(currentPage-1)*pageSize | limitTo:pageSize | orderBy : 'name'">
                                             <td class="text-center">{{character.name}}</td>
                                             <td class="text-center">{{character.level}}</td>
                                             <td class="text-center"><img class="class-icon img-circle" ng-src="images/{{character.wowClass.name}}.png"> {{character.class.name}}</td>
@@ -250,9 +263,8 @@
                                         </tbody>
                                     </table>
                                     <div class="text-center">
-                                    <pagination total-items="getCharacterCount()" ng-model="currentPage" boundary-links="true"
-                                            rotate="false" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
-                                            last-text="&raquo;" num-pages="numPages" maxSize="5" rotate="false"></pagination>
+                                        <pagination total-items="filteredCharacters.length" ng-model="currentPage" max-size="maxSize" boundary-links="true"
+                                                    rotate="true" num-pages="numPages"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                                     </div>
                                 </div>
                             </div>

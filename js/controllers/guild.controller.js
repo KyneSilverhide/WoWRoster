@@ -8,6 +8,7 @@
             // Pagination
             $scope.currentPage = 1;
             $scope.pageSize = 10;
+            $scope.maxSize = 5;
 
             $scope.guildName = null;
             $scope.maxLevelOnly = true;
@@ -26,22 +27,30 @@
 
             $scope.accordion = {
                 buffOpen: true,
-                cdOpen: false
+                cdOpen: false,
+                filtersOpen : false
             };
 
             // Members
             $scope.characters = [];
+            $scope.ranks = [];
 
-            $scope.getFilteredCharacters = function () {
-                var sortedCharacters = $filter('orderBy')($scope.characters, 'name');
-                if ($scope.maxLevelOnly) {
-                    sortedCharacters = $filter('filter')(sortedCharacters, {level: 100});
+            $scope.filterByRanks = function(member) {
+                var rankId = member.rank;
+                for(var index in $scope.ranks) {
+                    var rank = $scope.ranks[index];
+                    if(rank.selected && rank.id == rankId) {
+                        return true;
+                    }
                 }
-                return sortedCharacters;
+                return false;
             };
 
-            $scope.getCharacterCount = function () {
-                return $scope.getFilteredCharacters().length;
+            $scope.filterMaxOnly = function(member) {
+                if ($scope.maxLevelOnly) {
+                    return member.level == 100;
+                }
+                return true;
             };
 
             $scope.$on('fetch-characters', function () {
@@ -78,16 +87,28 @@
                         });
 
                     function storeCharacters(data) {
+                        var rankIds = [];
                         angular.forEach(data.members, function (value) {
                             var member = {
                                 name: value.character.name,
                                 level: value.character.level,
                                 spec: !value.character.spec ? null : value.character.spec.name,
                                 role: !value.character.spec ? null : value.character.spec.role,
+                                rank: value.rank,
                                 wowClass: classes[value.character.class],
                                 classLabel: classes[value.character.class].name
                             };
                             $scope.characters.push(member);
+                            var rankId = member.rank;
+                            if($.inArray(rankId, rankIds) == -1) {
+                                var rank = {
+                                    id: rankId,
+                                    name: rankId == "0" ? "Guild Master" : rankId == "8" ? "Reroll" : rankId,
+                                    selected: true
+                                };
+                                $scope.ranks.push(rank);
+                                rankIds.push(rankId);
+                            }
                         });
                     }
 
@@ -374,7 +395,7 @@
 
                 $scope.availableBuffs = {};
                 // Instead of trying to computer all counts and following all exclusive links, we just recompute from scratch.
-                // The code is much more easy, buf-free, but a bit more costly to execute. For a full roster (30 members),
+                // The code is much more easy, bug-free, but a bit more costly to execute. For a full roster (30 members),
                 // and an average of ~3 buff/ member, that's still less than 100 values to process.
                 for (var curRole in $scope.roster) {
                     for (var index in $scope.roster[curRole]) {
@@ -389,17 +410,19 @@
 
             $scope.hasBeenAddedToRoster = function (member) {
                 var memberClass = member.wowClass;
-                var memberSpec = memberClass.specialization[member.spec.replace(" ", "")];
-                if (memberSpec) {
-                    if (!memberSpec.role) {
-                        console.log(memberSpec + " is invalid");
-                    }
-                    var memberRole = memberSpec.role.id;
-                    if ($scope.roster[memberRole]) {
-                        var matches = $filter('filter')($scope.roster[memberRole], {name: member.name});
-                        return matches.length > 0;
-                    }
+                if(member.spec) {
+                    var memberSpec = memberClass.specialization[member.spec.replace(" ", "")];
+                    if (memberSpec) {
+                        if (!memberSpec.role) {
+                            console.log(memberSpec + " is invalid");
+                        }
+                        var memberRole = memberSpec.role.id;
+                        if ($scope.roster[memberRole]) {
+                            var matches = $filter('filter')($scope.roster[memberRole], {name: member.name});
+                            return matches.length > 0;
+                        }
 
+                    }
                 }
                 return false;
             };
