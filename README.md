@@ -2,7 +2,7 @@ WoWRoster
 =========
 WoWRoster is a web application to build a World of Warcraft raid roster from the official armory. Can be used to check which raid buffs and cooldowns are available in your roster.
 
-We are *not* affiliated with WoWRoster.net (http://www.wowroster.net/), sorry for the confusion :)
+I am *not* affiliated with WoWRoster.net (http://www.wowroster.net/), sorry for the confusion :)
 
 ## Changelog :
 [CHANGELOG.md](https://github.com/KyneSilverhide/WoWRoster/blob/master/CHANGELOG.md#changelog-)
