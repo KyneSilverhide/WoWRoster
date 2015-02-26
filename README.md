@@ -8,7 +8,7 @@ I am *not* affiliated with WoWRoster.net (http://www.wowroster.net/), sorry for 
 [CHANGELOG.md](https://github.com/KyneSilverhide/WoWRoster/blob/master/CHANGELOG.md#changelog-)
 
 # Demo
-There is a live demo available here : [WoWRoster](http://ks305642.kimsufi.com/kyne/WoWRoster/)
+There is a live demo available here : [WoWRoster](http://ns352915.ovh.net/kyne/WoWRoster/)
 
 # Installation
 I'm not planning on hosting the application for now. But you can actually run it on your computer very easily :
